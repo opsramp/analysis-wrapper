@@ -1,0 +1,153 @@
+@import "_variables.scss";
+
+textarea {
+  border: 1px solid #E0E0E0;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+table th {
+  color: $text-grey;
+  font-size: 12px;
+  outline: none !important;
+}
+
+table td:first-child,
+table th:first-child {
+  padding-left: 45px;
+}
+
+table td {
+  overflow: visible !important;
+  font-size: 12px;
+  vertical-align: middle !important;
+  outline: none !important;
+  border-top: none !important;
+}
+
+table td button {
+  font-size: 12px !important;
+}
+
+.text-grey {
+  color: $text-grey;
+}
+
+.c-sidebar {
+  background-color: transparent;
+  color: black;
+}
+
+.user-select {
+  border-radius: 20px !important;
+}
+
+.user-select > div {
+  border: none !important;
+}
+
+.user-select > div:first-child {
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0 !important;
+  box-sizing: border-box;
+  border-radius: 20px !important;
+}
+
+.c-sidebar .c-sidebar-brand {
+  background-color: transparent;
+}
+
+.sidebar-nav {
+  overflow: visible !important;
+  border-top: 1px solid rgb(226, 232, 240);
+  border-right: 1px solid rgb(226, 232, 240);
+}
+
+[data-reach-dialog-overlay] {
+  z-index: 9999;
+}
+
+[data-reach-dialog-content] {
+  background: white !important;
+}
+
+.ops-checkbox-wrapper .ops-checkbox-inner {
+  background-color: #FAFAFA !important;
+  border: 2px solid #BDBDBD;
+  box-shadow: none !important;
+}
+
+.ops-checkbox-wrapper .ops-checkbox-input:checked + .ops-checkbox-inner {
+  background-color: $primary !important;
+  border: none !important;
+}
+
+.dialog {
+  .dialog-header {
+    padding: 20px;
+    border-bottom: 1px solid rgb(226, 232, 240);
+    display: flex;
+    align-items: center;
+  }
+  
+  .dialog-footer {
+    padding: 20px;
+    border-top: 1px solid rgb(226, 232, 240);
+    display: flex;
+    align-items: center;
+  }
+
+  .dialog-content {
+    padding: 20px;
+  }
+}
+
+
+header {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.c-header-nav li {
+  display: flex;
+  align-items: center;
+  a {
+    display: flex;
+    align-items: flex-end !important;
+    svg {
+      margin-right: 10px;
+    }
+    i {
+      margin-left: 5px !important;
+    }
+    &:focus {
+      color: $nav-active !important;
+    }
+    &.drop:focus {
+      svg path{
+        fill: $nav-active !important;
+      }
+    }
+  }
+}
+
+.dropdown-menu {
+  border-radius: 6px !important;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-color: transparent !important;
+  margin-top: 10px !important;
+  padding: 10px 0 !important;
+  max-width: max-content !important;
+}
+
+.dropdown-item {
+  font-size: 14px;
+  min-width: max-content !important;
+  color: #424242 !important;
+}
+
+.nav-divider {
+  border-right: 1px solid #EDEFF1;
+  height: 30px;
+  margin: 0 10px;
+}
