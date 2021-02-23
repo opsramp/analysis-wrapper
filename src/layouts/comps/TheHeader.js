@@ -47,7 +47,7 @@ const TheHeader = ({ fixed, shadow, bgColor, history }) => {
         fixed={fixed || false}
         style={{ zIndex: 999, backgroundColor: bgColor || "transparent" }}
       >
-        <div className="static-header-block">
+        {/* <div className="static-header-block">
           <CHeaderBrand className="mx-2" to="/">
             <img src={LogoIcon}/>
           </CHeaderBrand>
@@ -119,26 +119,7 @@ const TheHeader = ({ fixed, shadow, bgColor, history }) => {
               </CDropdownMenu>
             </CDropdown>
           </CHeaderNav>
-        </div>
-        <CFormGroup className="my-1 d-sm-down-block d-md-none mx-auto w-100">
-          <div className="controls search-input" style={{ width: "100%" }}>
-            <CInputGroup>
-              <CInput
-                id="appendedInput"
-                size="16"
-                type="text"
-                placeholder="Search for a Trainer or live classes"
-              />
-              <CInputGroupAppend>
-                <CInputGroupText>
-                  <span className="divider">
-                    <CIcon name="cuSearch" width="18" height="22" />
-                  </span>
-                </CInputGroupText>
-              </CInputGroupAppend>
-            </CInputGroup>
-          </div>
-        </CFormGroup>
+        </div> */}
       </CHeader>
     </>
   )

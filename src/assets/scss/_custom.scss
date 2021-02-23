@@ -151,3 +151,8 @@ header {
   height: 30px;
   margin: 0 10px;
 }
+
+.the-panel {
+  position: relative;
+  z-index: 2;
+}

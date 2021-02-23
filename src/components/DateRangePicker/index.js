@@ -48,7 +48,7 @@ const AppDateRangePicker = ({title}) => {
 
     return (
         <div ref={wrapperRef}>
-            {title && <p className="text-gray mb-1">{title}</p>}
+            {title && <p className="text-grey mb-1">{title}</p>}
             <div className="date-range-input" onClick={() => setShow(!show)}>
                 <span className="mr-auto">
                     {state[0].label?state[0].label:(moment(state[0].startDate).format('M/DD/YY')+' - '+moment(state[0].endDate).format('M/DD/YY'))}
