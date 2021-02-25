@@ -18,10 +18,10 @@ const ThePanel = () => {
     const [showSavedDialog, openSavedViewDialog] = useState(false)
 
     return (
-        <div className="the-panel h-100">
+        <div className="the-panel bg-white h-100" style={{borderRadius: 5}}>
             <ShareModal showDialog={showShareDialog} closeDialog={() => openShareDialog(false)}/>
             <SavedViewsModal showDialog={showSavedDialog} closeDialog={() => openSavedViewDialog(false)}/>
-            <div className="h-100 bg-white p-8 sidebar-nav">
+            <div className="h-100 p-5">
                 <div className="d-flex justify-content-end mb-5 flex-wrap">
                     <div className="d-flex align-items-center ml-5 mb-3 cursor-pointer" onClick={() => openSavedViewDialog(true)}>
                         <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,7 +86,7 @@ const ThePanel = () => {
 
                                 <span className="ml-2">
                                     Runs
-                                </span>                       
+                                </span>
                             </div>
                         </div>
                     </div>
