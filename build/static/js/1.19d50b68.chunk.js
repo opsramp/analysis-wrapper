@@ -1,0 +1,2 @@
+(this["webpackJsonpfitnezz-guru"]=this["webpackJsonpfitnezz-guru"]||[]).push([[1],{1298:function(a,e,t){"use strict";t.r(e);var n=t(1),s=t.n(n);e.default=function(){return s.a.createElement("div",{className:"dashboard"},"Dashboard")}}}]);
+//# sourceMappingURL=1.19d50b68.chunk.js.map
