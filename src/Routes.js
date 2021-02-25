@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { lazy, Suspense, Fragment } from "react"
 import { Switch, Redirect, Route } from "react-router-dom"
+import Dashboard from "views/dashboard"
 
 // Layouts
 import AppLayout from "layouts/AppLayout"
@@ -10,7 +11,7 @@ const routesConfig = [
     exact: true,
     path: "/",
     layout: AppLayout,
-    component: lazy(() => import("views/dashboard")),
+    component: Dashboard,
   },
   {
     component: () => <Redirect to="/404" />

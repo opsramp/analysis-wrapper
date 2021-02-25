@@ -1,7 +1,7 @@
 {
-  "name": "fitnezz-guru",
+  "name": "luminalto",
   "version": "3.0.0",
-  "description": "Fitnezz Guru",
+  "description": "luminalto",
   "author": {
     "name": "CoreUI",
     "url": "https://coreui.io",
@@ -66,6 +66,7 @@
     "redux": "4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "rewire": "5.0.0",
     "source-map-explorer": "^2.5.0",
     "strip-color": "^0.1.0",
     "typescript": "^3.8.3",
