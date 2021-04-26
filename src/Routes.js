@@ -8,13 +8,9 @@ import AppLayout from "layouts/AppLayout"
 
 const routesConfig = [
   {
-    exact: true,
     path: "/",
     layout: AppLayout,
     component: Dashboard,
-  },
-  {
-    component: () => <Redirect to="/404" />
   }
 ]
 
