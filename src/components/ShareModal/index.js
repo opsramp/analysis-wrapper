@@ -3,8 +3,6 @@ import Select, { components } from "react-select"
 import { Dialog, Button, Checkbox } from 'opsramp-design-system'
 import UserIcon from 'assets/icons/profile_icon.png'
 import LinkIcon from 'assets/icons/link.svg'
-import { lawngreen } from 'color-name';
-import { isRegExpLiteral } from '@babel/types';
 
 const options = [
     { custom: true, value: "brian.rogers@luminalto.com", user: {

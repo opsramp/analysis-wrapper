@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import React, { lazy, Suspense, Fragment } from "react"
-import { Switch, Redirect, Route } from "react-router-dom"
+import React, { Suspense, Fragment } from "react"
+import { Switch, Route } from "react-router-dom"
 import Dashboard from "views/dashboard"
 
 // Layouts
