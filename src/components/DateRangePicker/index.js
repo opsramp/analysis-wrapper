@@ -1,8 +1,8 @@
 import React, {useState, useRef, useEffect} from 'react'
 import moment from 'moment'
-import '@opsrampjoe/date-time-range-picker/dist/styles.css' // main style file
-import '@opsrampjoe/date-time-range-picker/dist/theme/default.css' // theme css file
-import { DateRangePicker  } from '@opsrampjoe/date-time-range-picker'
+import 'react-date-time-range-picker/dist/styles.css' // main style file
+import 'react-date-time-range-picker/dist/theme/default.css' // theme css file
+import { DateRangePicker  } from 'react-date-time-range-picker'
 import { subHours } from 'date-fns'
 
 import './style.scss'
