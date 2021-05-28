@@ -11,7 +11,7 @@ const routesConfig = [
     path: "/",
     layout: AppLayout,
     component: Dashboard,
-  }
+  },
 ]
 
 const renderRoutes = (routes) =>

@@ -6,24 +6,16 @@ import ReactDOM from "react-dom"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 
-import { configureStore } from "services"
-
 import { icons } from "./assets/icons"
 
-import { Provider } from "react-redux"
-
-import 'opsramp-design-system/lib/opsramp-design-system.css'
-import 'opsramp-design-system/lib/tailwind.css'
-import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
-
-const store = configureStore()
+import "opsramp-design-system/lib/opsramp-design-system.css"
+import "opsramp-design-system/lib/tailwind.css"
+import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css"
 
 React.icons = icons
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <App />,
   document.getElementById("AnalyticsAppsUI-sidebar-container")
 )
 

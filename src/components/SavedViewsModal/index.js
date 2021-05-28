@@ -1,91 +1,104 @@
-import React from 'react'
-import  { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
-import { Dialog, Grid } from 'opsramp-design-system'
-import {
-    CDropdownToggle,
-    CDropdownItem,
-    CDropdownMenu,
-    CDropdown
-  } from "@coreui/react"
+import React, { useState, useEffect } from "react"
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table"
+import { Dialog } from "opsramp-design-system"
+import CopyIcon from "assets/icons/icon-copy.svg"
+import EditIcon from "assets/icons/icon-edit.svg"
+import RemoveIcon from "assets/icons/icon-remove.svg"
 
-import CloseIcon from 'assets/icons/close.svg'
+import CloseIcon from "assets/icons/close.svg"
+import RenameModal from "./RenameModal"
 
-const SavedViewsModal = ({showDialog, closeDialog}) => {
-    var products = [{
-        id: 1,
-        name: 'North America',
-        create_at: "Sep 15, 2020",
-        modified_at: "Sep 22, 2020",
-        owner: 'Me'
-    }, {
-        id: 1,
-        name: 'North America',
-        create_at: "Sep 15, 2020",
-        modified_at: "Sep 22, 2020",
-        owner: 'Guest'
-    }];
+import { API_URL } from "config"
 
-    const nameFormater = (cell, row) => {
-        return <div className="text-primary">{cell}</div>
-    }
+const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
+  const [renameModalVisible, setRenameModalVisible] = useState(false)
+  const [selectedRow, setSelectedRow] = useState(false)
 
-    const actionFormater = (cell, row) => {
-        return (
-            <CDropdown
-              direction="down"
-            >
-              <CDropdownToggle className="c-header-nav-link drop pl-2 pr-0" caret={false}>
-                Actions <i className="icon-chevron-down ml-auto"/>
-              </CDropdownToggle>
-              <CDropdownMenu placement="bottom-end">
-                <CDropdownItem to="/home">
-                  Share...
-                </CDropdownItem>
-                <CDropdownItem to="/user/account">
-                  Rename...
-                </CDropdownItem>
-                <CDropdownItem>
-                  Make a copy...
-                </CDropdownItem>
-                <CDropdownItem>
-                  Remove
-                </CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
+  const [analysesData, setAnalysesData] = useState([])
+
+  const nameFormater = (cell, row) => {
+    return <div className="text-primary">{cell}</div>
+  }
+
+  const actionFormater = (cell, row) => {
+    return (
+      <div className="d-flex">
+        <button className="action-btn">
+          <img src={CopyIcon} />
+        </button>
+        <button
+          className="action-btn"
+          onClick={() => {
+            setRenameModalVisible(true)
+            setSelectedRow(row)
+          }}
+        >
+          <img src={EditIcon} />
+        </button>
+        <button className="action-btn">
+          <img src={RemoveIcon} />
+        </button>
+      </div>
+    )
+  }
+
+  useEffect(() => {
+    if (showDialog) {
+      fetch(`${API_URL}/analyses`)
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            setAnalysesData(result)
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          (error) => {
+            console.log(error)
+          }
         )
     }
+  }, [showDialog])
 
-    const sortOwner = (a, b, order) => {
-        if (order === 'desc') {
-            return a.owner - b.owner;
-          } else {
-            return b.owner - a.owner;
-          }
-    }
-
-    return (
-        <Dialog
-            aria-label="Share Modal"
-            isOpen={showDialog}
-            onDismiss={closeDialog}
-            style={{width: '100%', maxWidth: '100%', height: '100%', margin: 0}}
-            className="dialog"
+  return (
+    <Dialog
+      aria-label="Share Modal"
+      isOpen={showDialog}
+      onDismiss={closeDialog}
+      style={{ width: "100%", maxWidth: "100%", height: "100%", margin: 0 }}
+      className="dialog"
+    >
+      <div className="h-100">
+        <RenameModal
+          showDialog={renameModalVisible}
+          closeDialog={() => setRenameModalVisible(false)}
+          selectedRow={selectedRow}
+        />
+        <div className="dialog-header justify-content-between">
+          <h5 className="font-semibold">Saved Analysis</h5>
+          <img src={CloseIcon} className="mr-2" onClick={() => closeDialog()} />
+        </div>
+        <BootstrapTable
+          data={analysesData}
+          bordered={false}
+          className="h-100"
+          version="4"
         >
-            <div className="h-100">
-                <div className="dialog-header">
-                    <img src={CloseIcon} className="mr-2" onClick={() => closeDialog()}/>
-                    <h5 className="font-semibold">Saved Views</h5>
-                </div>
-                <BootstrapTable data={products} bordered={ false } className="h-100" version='4'>
-                    <TableHeaderColumn isKey dataField='name' dataFormat={ nameFormater }>View Name</TableHeaderColumn>
-                    <TableHeaderColumn dataField='create_at'>Creation Date</TableHeaderColumn>
-                    <TableHeaderColumn dataField='modified_at'>Last Modified</TableHeaderColumn>
-                    <TableHeaderColumn dataField='owner' dataSort >Owner</TableHeaderColumn>
-                    <TableHeaderColumn dataField='action' dataFormat={actionFormater}></TableHeaderColumn>
-                </BootstrapTable>
-            </div>
-        </Dialog>
-    )
+          <TableHeaderColumn isKey dataField="name" dataFormat={nameFormater}>
+            Analysis Name
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField="created">Analysis Period</TableHeaderColumn>
+          <TableHeaderColumn dataField="created" dataSort>
+            Creation Date
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataField="action"
+            dataFormat={actionFormater}
+          ></TableHeaderColumn>
+        </BootstrapTable>
+      </div>
+    </Dialog>
+  )
 }
 
 export default SavedViewsModal

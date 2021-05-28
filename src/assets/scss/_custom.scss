@@ -19,18 +19,29 @@ table th:first-child {
 
 table td {
   overflow: visible !important;
-  font-size: 12px;
+  font-size: 14px;
   vertical-align: middle !important;
   outline: none !important;
   border-top: none !important;
 }
 
 table td button {
-  font-size: 12px !important;
+  font-size: 16px !important;
 }
 
 .text-grey {
   color: $text-grey;
+}
+
+.form-group {
+  label {
+    color: #757575;
+    font-size: 12px;
+  }
+}
+
+.bg-grey-100 {
+  background: #F5F5F5 !important;
 }
 
 .c-sidebar {
@@ -138,12 +149,33 @@ header {
   margin-top: 10px !important;
   padding: 10px 0 !important;
   max-width: max-content !important;
+  min-width: 200px !important;
 }
 
 .dropdown-item {
   font-size: 14px;
   min-width: max-content !important;
   color: #424242 !important;
+  padding: 0.5rem 1rem !important;
+}
+
+.action-btn {
+  border-radius: 50% !important;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn:hover,
+.action-btn:focus {
+  background: #f4f4f4 !important;
+  box-shadow: none !important;
+}
+
+.dropdown-item.disabled, .dropdown-item:disabled {
+  opacity: 0.4;
 }
 
 .nav-divider {
