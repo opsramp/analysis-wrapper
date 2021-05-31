@@ -1,6 +1,6 @@
 import React from "react"
 
-import { ThePanel } from "./comps"
+import AnalysisWrapper from "./AnalysisWrapper"
 
 const AppLayout = () => {
   return (
@@ -11,7 +11,7 @@ const AppLayout = () => {
       <div className="c-wrapper h-100">
         <div className="row h-100" style={{ minHeight: "100vh" }}>
           <div className="col-12">
-            <ThePanel />
+            <AnalysisWrapper />
           </div>
         </div>
       </div>

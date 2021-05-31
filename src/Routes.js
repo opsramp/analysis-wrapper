@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { Suspense, Fragment } from "react"
 import { Switch, Route } from "react-router-dom"
-import Dashboard from "views/dashboard"
 
 // Layouts
 import AppLayout from "layouts/AppLayout"
@@ -9,8 +8,7 @@ import AppLayout from "layouts/AppLayout"
 const routesConfig = [
   {
     path: "/",
-    layout: AppLayout,
-    component: Dashboard,
+    layout: AppLayout
   },
 ]
 
@@ -31,11 +29,6 @@ const renderRoutes = (routes) =>
               render={(props) => (
                 <Guard>
                   <Layout>
-                    {route.routes ? (
-                      renderRoutes(route.routes)
-                    ) : (
-                      <Component {...props} />
-                    )}
                   </Layout>
                 </Guard>
               )}

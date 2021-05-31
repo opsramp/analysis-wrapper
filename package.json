@@ -1,7 +1,7 @@
 {
-  "name": "luminalto",
-  "version": "3.0.0",
-  "description": "luminalto",
+  "name": "analysis-wrapper",
+  "version": "2.0.0",
+  "description": "Opsramp Analysis Wrapper",
   "license": "MIT",
   "private": true,
   "dependencies": {

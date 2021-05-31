@@ -34,7 +34,7 @@ const MoreMenu = ({ openSavedViewDialog, openShareDialog }) => (
   </CDropdown>
 )
 
-const ThePanel = () => {
+const AnalysisWrapper = () => {
   const [showShareDialog, openShareDialog] = useState(false)
   const [showSavedDialog, openSavedViewDialog] = useState(false)
   const [showRunsDialog, openRunsDialog] = useState(false)
@@ -142,4 +142,4 @@ const ThePanel = () => {
   )
 }
 
-export default ThePanel
+export default AnalysisWrapper
