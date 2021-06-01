@@ -44,7 +44,7 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
 
   useEffect(() => {
     if (showDialog) {
-      fetch(`${API_URL}/analyses`)
+      fetch(`${API_URL}/analyses/`)
         .then((res) => res.json())
         .then(
           (result) => {
