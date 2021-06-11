@@ -7,7 +7,25 @@ const customStyles = {
   }),
   dropdownIndicator: (provide) => ({
     color: "black",
-    marginRight: 15,
+    marginRight: 10,
+  }),
+  multiValue: () => ({
+    backgroundColor: "white",
+    display: "flex",
+    borderRadius: 15,
+    marginRight: 5,
+    border: "1px solid #ced4da",
+  }),
+  multiValueLabel: () => ({
+    backgroundColor: "transparent",
+    paddingLeft: 10,
+    paddingRight: 10,
+  }),
+  multiValueRemove: () => ({
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    paddingRight: 5,
   }),
 }
 

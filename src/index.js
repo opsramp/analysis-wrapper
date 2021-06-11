@@ -6,13 +6,9 @@ import ReactDOM from "react-dom"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 
-import { icons } from "./assets/icons"
-
 import "opsramp-design-system/lib/opsramp-design-system.css"
 import "opsramp-design-system/lib/tailwind.css"
 import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css"
-
-React.icons = icons
 
 ReactDOM.render(
   <App />,

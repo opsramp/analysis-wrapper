@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import Select, { components } from "react-select"
 import { Dialog, Button, Checkbox } from "opsramp-design-system"
-import UserIcon from "assets/icons/profile_icon.png"
 import LinkIcon from "assets/icons/link.svg"
 
 const options = [
@@ -9,7 +8,7 @@ const options = [
     custom: true,
     value: "brian.rogers@luminalto.com",
     user: {
-      icon: UserIcon,
+      icon: "",
       name: "Brian Rogers",
       email: "brian.rogers@luminalto.com",
     },
@@ -23,11 +22,7 @@ const CustomOption = (props) => {
   return data.custom ? (
     <div ref={innerRef} {...innerProps}>
       <div className="d-flex align-items-center p-2">
-        <img
-          className="img-round"
-          src={UserIcon}
-          style={{ width: 40, height: 40 }}
-        />
+        <img className="img-round" src={""} style={{ width: 40, height: 40 }} />
         <div className="d-flex flex-column ml-2">
           <div className="name">
             <strong>{data.user.name}</strong>
@@ -55,7 +50,7 @@ const UserSelects = ({ onSelect }) => (
 const ShareModal = ({ showDialog, closeDialog }) => {
   const [sharedUsers, setSharedUsers] = useState([
     {
-      icon: UserIcon,
+      icon: "",
       name: "Charlie Consumer",
       email: "charlie.consumer@luminalto.com",
       role: "Owner",

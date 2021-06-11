@@ -8,7 +8,7 @@ import AppLayout from "layouts/AppLayout"
 const routesConfig = [
   {
     path: "/",
-    layout: AppLayout
+    layout: AppLayout,
   },
 ]
 
@@ -28,8 +28,7 @@ const renderRoutes = (routes) =>
               exact={route.exact}
               render={(props) => (
                 <Guard>
-                  <Layout>
-                  </Layout>
+                  <Layout></Layout>
                 </Guard>
               )}
             />
