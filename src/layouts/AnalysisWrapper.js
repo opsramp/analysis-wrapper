@@ -7,11 +7,10 @@ import {
   CDropdown,
 } from "@coreui/react"
 
-import ShareModal from "components/ShareModal"
 import SavedViewsModal from "components/SavedViewsModal"
 import RunsViewModal from "components/RunsViewModal"
 import AnalysisLoading from "components/AnalysisLoading"
-import SendScheduleModal from "components/SendScheduleModal"
+import SendModal from "components/SendModal"
 
 const MoreMenu = ({
   openSavedViewDialog,
@@ -46,7 +45,6 @@ const MoreMenu = ({
 )
 
 const AnalysisWrapper = () => {
-  const [showShareDialog, openShareDialog] = useState(false)
   const [showSavedDialog, openSavedViewDialog] = useState(false)
   const [showRunsDialog, openRunsDialog] = useState(false)
   const [showSendAnalysisDialog, openSendAnalysisDialog] = useState(false)
@@ -74,10 +72,6 @@ const AnalysisWrapper = () => {
     <>
       {loading && <AnalysisLoading />}
       <div className="the-panel bg-white h-100" style={{ borderRadius: 5 }}>
-        <ShareModal
-          showDialog={showShareDialog}
-          closeDialog={() => openShareDialog(false)}
-        />
         <SavedViewsModal
           showDialog={showSavedDialog}
           closeDialog={() => openSavedViewDialog(false)}
@@ -86,7 +80,7 @@ const AnalysisWrapper = () => {
           showDialog={showRunsDialog}
           closeDialog={() => openRunsDialog(false)}
         />
-        <SendScheduleModal
+        <SendModal
           showDialog={showSendAnalysisDialog}
           analysis={{
             title: "North America",
@@ -94,7 +88,7 @@ const AnalysisWrapper = () => {
           }}
           closeDialog={() => openSendAnalysisDialog(false)}
         />
-        <SendScheduleModal
+        <SendModal
           showDialog={showSendAnalysisScheduleDialog}
           isSchedule={true}
           analysis={{
@@ -150,7 +144,7 @@ const AnalysisWrapper = () => {
                 <div className="action-divider"></div>
                 <div
                   className="d-flex align-items-center ml-5 cursor-pointer"
-                  onClick={() => openShareDialog(true)}
+                  onClick={() => openRunsDialog(true)}
                 >
                   <svg
                     width="16"

@@ -34,12 +34,7 @@ const getReceipientsArray = (recepients) => {
   return recepients.split(",").map((re) => parseInt(re))
 }
 
-const SendScheduleModal = ({
-  showDialog,
-  closeDialog,
-  analysis,
-  isSchedule = false,
-}) => {
+const SendModal = ({ showDialog, closeDialog, analysis, isSchedule = false }) => {
   const [selectedFrequency, setFrequency] = useState(frequencyOptions[0].value)
   const [loading, setLoading] = useState(false)
 
@@ -122,7 +117,8 @@ const SendScheduleModal = ({
           <form onSubmit={props.handleSubmit}>
             <div className="dialog-header">
               <h5 className="font-semibold">
-                Send On A Schedule - Analysis: <i>{analysis.title}</i>
+                Send {isSchedule ? "On A Schedule" : "Now"} - Analysis:{" "}
+                <i>{analysis.title}</i>
               </h5>
             </div>
             <div className="dialog-content bg-grey-100">
@@ -252,4 +248,4 @@ const SendScheduleModal = ({
   )
 }
 
-export default SendScheduleModal
+export default SendModal
