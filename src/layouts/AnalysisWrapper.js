@@ -12,6 +12,8 @@ import RunsViewModal from "components/RunsViewModal"
 import AnalysisLoading from "components/AnalysisLoading"
 import SendModal from "components/SendModal"
 
+import { API_URL } from "config"
+
 const MoreMenu = ({
   openSavedViewDialog,
   openShareDialog,
@@ -54,18 +56,32 @@ const AnalysisWrapper = () => {
   const [loading, setLoading] = useState(false)
 
   const runAnalysis = () => {
-    try {
       setLoading(true)
 
-      // TODO: Analysis API call
-
-      setTimeout(() => {
+      fetch(`https://localhost/analytics-apps/compute`, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        start_date: localStorage.getItem('op-filter-start-date'),
+        end_date: localStorage.getItem('op-filter-end-date')
+      })
+    })
+    .then((res) => res.json())
+    .then(
+      (result) => {
+        localStorage.setItem('_oap_data_in_analytics-apps', JSON.stringify(result['analysis-run']))
         setLoading(false)
-      }, 2000)
-    } catch (e) {
-      console.log(e)
-      setLoading(false)
-    }
+      },
+      // Note: it's important to handle errors here
+      // instead of a catch() block so that we don't swallow
+      // exceptions from actual bugs in components.
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   return (

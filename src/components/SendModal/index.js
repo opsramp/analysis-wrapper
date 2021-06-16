@@ -42,6 +42,10 @@ const SendModal = ({ showDialog, closeDialog, analysis, isSchedule = false }) =>
     setLoading(true)
     fetch(`${API_URL}/analysis-sends/`, {
       method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         ...values,
         analysis: analysis.id,

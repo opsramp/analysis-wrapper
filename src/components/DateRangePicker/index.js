@@ -46,11 +46,11 @@ const AppDateRangePicker = ({ title }) => {
     setState([item.selection])
     localStorage.setItem(
       "op-filter-start-date",
-      JSON.stringify(item.selection.startDate.toISOString())
+      item.selection.startDate.toISOString()
     )
-    sessionStorage.setItem(
+    localStorage.setItem(
       "op-filter-end-date",
-      JSON.stringify(item.selection.endDate.toISOString())
+      item.selection.endDate.toISOString()
     )
   }
 
