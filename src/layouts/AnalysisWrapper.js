@@ -58,7 +58,7 @@ const AnalysisWrapper = () => {
   const runAnalysis = () => {
       setLoading(true)
 
-      fetch(`https://localhost/analytics-apps/compute`, {
+      fetch(`https://localhost/analytics-apps/compute`, {  // TODO
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -72,7 +72,12 @@ const AnalysisWrapper = () => {
     .then((res) => res.json())
     .then(
       (result) => {
-        localStorage.setItem('_oap_data_in_analytics-apps', JSON.stringify(result['analysis-run']))
+        const oapInStoreId = window.oapInStoreId || '_oap_data_in_';
+        localStorage.setItem(oapInStoreId, JSON.stringify(result['analysis-run']))
+        let e = new StorageEvent({})
+        e.initStorageEvent('storage', false, false, oapInStoreId, null, JSON.stringify(result['analysis-run']))
+        window.dispatchEvent(e)
+
         setLoading(false)
       },
       // Note: it's important to handle errors here
