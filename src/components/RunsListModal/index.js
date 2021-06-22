@@ -18,8 +18,8 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
       fetch(`${API_URL}/analysis-runs/`)
         .then((res) => res.json())
         .then(
-          (result) => {
-            setRunsData(result)
+          (response) => {
+            setRunsData(response.results)
           },
           // Note: it's important to handle errors here
           // instead of a catch() block so that we don't swallow

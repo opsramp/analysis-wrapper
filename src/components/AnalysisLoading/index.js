@@ -8,7 +8,7 @@ const AnalysisLoading = () => (
         <div />
         <div />
       </div>
-      <p className="text-primary">
+      <p className="text-primary mb-0">
         <strong>ANALYZING</strong>
       </p>
     </div>

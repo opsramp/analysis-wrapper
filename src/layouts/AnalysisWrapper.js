@@ -8,11 +8,9 @@ import {
 } from "@coreui/react"
 
 import SavedViewsModal from "components/SavedViewsModal"
-import RunsViewModal from "components/RunsViewModal"
+import RunsListModal from "components/RunsListModal"
 import AnalysisLoading from "components/AnalysisLoading"
 import SendModal from "components/SendModal"
-
-import { API_URL } from "config"
 
 const MoreMenu = ({
   openSavedViewDialog,
@@ -97,7 +95,7 @@ const AnalysisWrapper = () => {
           showDialog={showSavedDialog}
           closeDialog={() => openSavedViewDialog(false)}
         />
-        <RunsViewModal
+        <RunsListModal
           showDialog={showRunsDialog}
           closeDialog={() => openRunsDialog(false)}
         />

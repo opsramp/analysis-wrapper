@@ -19,7 +19,6 @@ const renderRoutes = (routes) =>
         {routes.map((route, i) => {
           const Guard = route.guard || Fragment
           const Layout = route.layout || Fragment
-          const Component = route.component
 
           return (
             <Route
