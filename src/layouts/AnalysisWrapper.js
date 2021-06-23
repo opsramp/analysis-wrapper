@@ -49,24 +49,22 @@ const AnalysisWrapper = () => {
   const [showSavedDialog, openSavedViewDialog] = useState(false)
   const [showRunsDialog, openRunsDialog] = useState(false)
   const [showSendAnalysisDialog, openSendAnalysisDialog] = useState(false)
-  const [showSendAnalysisScheduleDialog, openSendAnalysisScheduleDialog] =
-    useState(false)
-
+  const [showSendAnalysisScheduleDialog, openSendAnalysisScheduleDialog] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [reportPeriod, setReportPeriod] = useState(null)
 
   const runAnalysis = () => {
     setLoading(true)
 
     fetch(`https://localhost/analytics-apps/compute`, {
-      // TODO
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        start_date: localStorage.getItem("op-filter-start-date"),
-        end_date: localStorage.getItem("op-filter-end-date"),
+        start_date: reportPeriod.startDate.toISOString(),
+        end_date: reportPeriod.endDate.toISOString(),
       }),
     })
       .then((res) => res.json())
@@ -75,9 +73,6 @@ const AnalysisWrapper = () => {
           triggerRunLoading(result["analysis-run"]);
           setLoading(false)
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
           console.log(error)
         }
@@ -133,7 +128,7 @@ const AnalysisWrapper = () => {
           <section className="pt-5">
             <div className="d-flex justify-content-between align-items-center mb-5">
               <h6 className="mb-0">
-                <strong>Settings</strong>
+                <strong>Parameters</strong>
               </h6>
               <div className="d-flex justify-content-end flex-wrap">
                 <div
@@ -197,7 +192,7 @@ const AnalysisWrapper = () => {
                 </div>
               </div>
             </div>
-            <DateRangePicker title="Reporting Period" />
+            <DateRangePicker title="Analysis Period" setReportPeriod={setReportPeriod} />
           </section>
         </div>
       </div>

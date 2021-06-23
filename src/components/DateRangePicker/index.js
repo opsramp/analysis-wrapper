@@ -28,7 +28,7 @@ function useOutsideAlerter(ref, callback) {
   }, [ref])
 }
 
-const AppDateRangePicker = ({ title }) => {
+const AppDateRangePicker = ({ title, setReportPeriod }) => {
   const [show, setShow] = useState(false)
   const [state, setState] = useState([
     {
@@ -43,15 +43,13 @@ const AppDateRangePicker = ({ title }) => {
   useOutsideAlerter(wrapperRef, () => setShow(false))
 
   const onChange = (item) => {
-    console.log(item, 123);
     setState([item.selection])
-    localStorage.setItem("op-filter-start-date", item.selection.startDate.toISOString())
-    localStorage.setItem("op-filter-end-date", item.selection.endDate.toISOString())
+    setReportPeriod(item.selection)
   }
 
   return (
     <div ref={wrapperRef}>
-      {title && <p className="text-grey mb-1">{title}</p>}
+      <p className="text-grey mb-1">{title}</p>
       <div className="date-range-input" onClick={() => setShow(!show)}>
         <span className="mr-auto">
           {state[0].label
