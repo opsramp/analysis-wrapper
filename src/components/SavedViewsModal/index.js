@@ -8,19 +8,22 @@ import RemoveIcon from "assets/icons/icon-remove.svg"
 import CloseIcon from "assets/icons/close.svg"
 import RenameModal from "./RenameModal"
 import { API_URL } from "config"
-import { localFullDate, localDate } from "utils"
-
-const SIZE_PER_PAGE = 20
+import { localFullDate, localDate, paginationOptions } from "utils"
 
 const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
   const [selectedRow, setSelectedRow] = useState(false)
   const [analysesData, setAnalysesData] = useState([])
   const [page, setPage] = useState(1)
+  const [sizePerPage, setSizePerPage] = useState(20)
   const [totalSize, setTotalSize] = useState(null)
 
-  const fetchData = (pageNo, sort = null) =>
-    fetch(`${API_URL}/analyses/?page=${pageNo}${sort ? `&ordering=${sort}` : ""}`)
+  const fetchData = (pageNo, sort = null, sizePerPage) =>
+    fetch(
+      `${API_URL}/analyses/?page=${pageNo}${
+        sort ? `&ordering=${sort}` : ""
+      }&page_size=${sizePerPage || 20}`
+    )
       .then((res) => res.json())
       .then(
         (response) => {
@@ -38,14 +41,15 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
     }
   }, [showDialog])
 
-  const handleTableChange = (type, { page, sortField, sortOrder }) => {
+  const handleTableChange = (type, { page, sizePerPage, sortField, sortOrder }) => {
     let sort = null
 
     if (sortField && sortOrder)
       sort = sortOrder === "asc" ? sortField : `-${sortField}`
 
-    fetchData(page, sort)
+    fetchData(page, sort, sizePerPage)
     setPage(page)
+    setSizePerPage(sizePerPage)
   }
 
   const columns = [
@@ -117,10 +121,10 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
           keyField="id"
           data={analysesData}
           pagination={paginationFactory({
+            ...paginationOptions,
             page,
-            sizePerPage: SIZE_PER_PAGE,
             totalSize,
-            hideSizePerPage: true,
+            sizePerPage,
           })}
           columns={columns}
           bordered={false}

@@ -4,18 +4,19 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
 import { API_URL } from "config"
-import { localFullDate, localDate } from "utils"
-
-const SIZE_PER_PAGE = 20
+import { localFullDate, paginationOptions } from "utils"
 
 const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
   const [runsData, setRunsData] = useState([])
   const [page, setPage] = useState(1)
+  const [sizePerPage, setSizePerPage] = useState(20)
   const [totalSize, setTotalSize] = useState(null)
 
-  const fetchData = (pageNo, sort = null) =>
+  const fetchData = (pageNo, sort = null, sizePerPage) =>
     fetch(
-      `${API_URL}/analysis-runs/?page=${pageNo}${sort ? `&ordering=${sort}` : ""}`
+      `${API_URL}/analysis-runs/?page=${pageNo}${
+        sort ? `&ordering=${sort}` : ""
+      }&page_size=${sizePerPage || 20}`
     )
       .then((res) => res.json())
       .then(
@@ -64,14 +65,15 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
     },
   ]
 
-  const handleTableChange = (type, { page, sortField, sortOrder }) => {
+  const handleTableChange = (type, { page, sizePerPage, sortField, sortOrder }) => {
     let sort = null
 
     if (sortField && sortOrder)
       sort = sortOrder === "asc" ? sortField : `-${sortField}`
 
-    fetchData(page, sort)
+    fetchData(page, sort, sizePerPage)
     setPage(page)
+    setSizePerPage(sizePerPage)
   }
 
   return (
@@ -94,10 +96,10 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
             keyField="id"
             data={runsData}
             pagination={paginationFactory({
+              ...paginationOptions,
               page,
-              sizePerPage: SIZE_PER_PAGE,
               totalSize,
-              hideSizePerPage: true,
+              sizePerPage,
             })}
             columns={columns}
             bordered={false}
