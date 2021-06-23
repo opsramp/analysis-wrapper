@@ -4,9 +4,9 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
 import { API_URL } from "config"
-import { dateTimeFormatter, dateFormatter, paginationOptions } from "utils"
+import { dateTimeFormatter, dateFormatter, triggerRunLoading, paginationOptions } from "utils"
 
-const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
+const RunsViewsModal = ({ showDialog, closeDialog }) => {
   const [runsData, setRunsData] = useState([])
   const [page, setPage] = useState(1)
   const [sizePerPage, setSizePerPage] = useState(20)
@@ -31,6 +31,11 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
       )
   }
 
+  const loadRun = (runId) => {
+    triggerRunLoading(runId);
+    closeDialog();
+  }
+
   useEffect(() => {
     if (showDialog) {
       fetchData(1)
@@ -43,7 +48,7 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
       text: "Date Run",
       sort: true,
       formatter: (cell, row) => (
-        <div className="text-primary">{dateTimeFormatter(cell)}</div>
+        <div className="btn btn-link" onClick={()=>loadRun(row.id)}>{dateTimeFormatter(cell)}</div>
       ),
     },
     {
