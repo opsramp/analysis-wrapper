@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table"
+import BootstrapTable from "react-bootstrap-table-next"
 import { Dialog } from "opsramp-design-system"
-
 import CloseIcon from "assets/icons/close.svg"
-
 import { API_URL } from "config"
+import { localFullDate, localDate } from "utils"
 
 const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
   const [runsData, setRunsData] = useState([])
-
-  const nameFormater = (cell, row) => {
-    return <div className="text-primary">{cell}</div>
-  }
 
   useEffect(() => {
     if (showDialog) {
@@ -21,15 +16,41 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
           (response) => {
             setRunsData(response.results)
           },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
           (error) => {
             console.log(error)
           }
         )
     }
   }, [showDialog])
+
+  const columns = [
+    {
+      dataField: "date_completed",
+      text: "Date Run",
+      sort: true,
+      formatter: (cell, row) => (
+        <div className="text-primary">{localFullDate(cell)}</div>
+      ),
+    },
+    {
+      dataField: "date_launched",
+      text: "Date Submitted",
+      formatter: (cell) => localFullDate(cell),
+    },
+    {
+      dataField: "date_completed",
+      text: "Analysis Period",
+      formatter: (cell) => localFullDate(cell),
+    },
+    {
+      dataField: "analysis_name",
+      text: "Analysis Name",
+    },
+    {
+      dataField: "date_completed",
+      text: "Processing",
+    },
+  ]
 
   return (
     <Dialog
@@ -45,33 +66,12 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
           <img src={CloseIcon} className="mr-2" onClick={() => closeDialog()} />
         </div>
         <BootstrapTable
+          keyField="id"
           data={runsData}
+          columns={columns}
           bordered={false}
-          className="h-100"
-          version="4"
-        >
-          <TableHeaderColumn
-            isKey
-            dataField="date_completed"
-            dataFormat={nameFormater}
-            dataSort
-          >
-            Date Run
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="date_launched">
-            Date Submitted
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="date_completed">
-            Analysis Period
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="date_completed">Scheduled</TableHeaderColumn>
-          <TableHeaderColumn dataField="date_completed">
-            Analysis Name
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="date_completed">
-            Processing
-          </TableHeaderColumn>
-        </BootstrapTable>
+          bootstrap4
+        />
       </div>
     </Dialog>
   )

@@ -54,37 +54,45 @@ const AnalysisWrapper = () => {
   const [loading, setLoading] = useState(false)
 
   const runAnalysis = () => {
-      setLoading(true)
+    setLoading(true)
 
-      fetch(`https://localhost/analytics-apps/compute`, {  // TODO
+    fetch(`https://localhost/analytics-apps/compute`, {
+      // TODO
       method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        start_date: localStorage.getItem('op-filter-start-date'),
-        end_date: localStorage.getItem('op-filter-end-date')
-      })
+        start_date: localStorage.getItem("op-filter-start-date"),
+        end_date: localStorage.getItem("op-filter-end-date"),
+      }),
     })
-    .then((res) => res.json())
-    .then(
-      (result) => {
-        const oapInStoreId = window.oapInStoreId || '_oap_data_in_';
-        localStorage.setItem(oapInStoreId, JSON.stringify(result['analysis-run']))
-        let e = new StorageEvent({})
-        e.initStorageEvent('storage', false, false, oapInStoreId, null, JSON.stringify(result['analysis-run']))
-        window.dispatchEvent(e)
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          const oapInStoreId = window.oapInStoreId || "_oap_data_in_"
+          localStorage.setItem(oapInStoreId, JSON.stringify(result["analysis-run"]))
+          let e = new StorageEvent({})
+          e.initStorageEvent(
+            "storage",
+            false,
+            false,
+            oapInStoreId,
+            null,
+            JSON.stringify(result["analysis-run"])
+          )
+          window.dispatchEvent(e)
 
-        setLoading(false)
-      },
-      // Note: it's important to handle errors here
-      // instead of a catch() block so that we don't swallow
-      // exceptions from actual bugs in components.
-      (error) => {
-        console.log(error)
-      }
-    )
+          setLoading(false)
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error)
+        }
+      )
   }
 
   return (

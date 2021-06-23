@@ -8,7 +8,7 @@ import * as serviceWorker from "./serviceWorker"
 
 import "opsramp-design-system/lib/opsramp-design-system.css"
 import "opsramp-design-system/lib/tailwind.css"
-import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css"
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css"
 
 ReactDOM.render(
   <App />,

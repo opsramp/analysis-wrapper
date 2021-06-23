@@ -1,64 +1,78 @@
 import React, { useState, useEffect } from "react"
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table"
+import BootstrapTable from "react-bootstrap-table-next"
 import { Dialog } from "opsramp-design-system"
 import CopyIcon from "assets/icons/icon-copy.svg"
 import EditIcon from "assets/icons/icon-edit.svg"
 import RemoveIcon from "assets/icons/icon-remove.svg"
-
 import CloseIcon from "assets/icons/close.svg"
 import RenameModal from "./RenameModal"
-
 import { API_URL } from "config"
+import { localFullDate, localDate } from "utils"
 
 const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
   const [selectedRow, setSelectedRow] = useState(false)
-
   const [analysesData, setAnalysesData] = useState([])
-
-  const nameFormater = (cell, row) => {
-    return <div className="text-primary">{cell}</div>
-  }
-
-  const actionFormater = (cell, row) => {
-    return (
-      <div className="d-flex">
-        <button className="action-btn">
-          <img src={CopyIcon} />
-        </button>
-        <button
-          className="action-btn"
-          onClick={() => {
-            setRenameModalVisible(true)
-            setSelectedRow(row)
-          }}
-        >
-          <img src={EditIcon} />
-        </button>
-        <button className="action-btn">
-          <img src={RemoveIcon} />
-        </button>
-      </div>
-    )
-  }
 
   useEffect(() => {
     if (showDialog) {
       fetch(`${API_URL}/analyses/`)
         .then((res) => res.json())
         .then(
-          (result) => {
-            setAnalysesData(result)
+          (response) => {
+            setAnalysesData(response.results)
           },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
           (error) => {
             console.log(error)
           }
         )
     }
   }, [showDialog])
+
+  const columns = [
+    {
+      dataField: "name",
+      text: "Analysis Name",
+      sort: true,
+      formatter: (cell, row) => <div className="text-primary">{cell}</div>,
+    },
+    {
+      dataField: "params",
+      text: "Analysis Period",
+      formatter: (cell, row) =>
+        `${localDate(cell.start_date)} - ${localDate(cell.end_date)}`,
+    },
+    {
+      dataField: "created",
+      text: "Creation Date",
+      formatter: (cell, row) => localFullDate(cell),
+    },
+    {
+      dataField: "action",
+      text: "",
+      formatter: (cell, row) => {
+        return (
+          <div className="d-flex">
+            <button className="action-btn">
+              <img src={CopyIcon} />
+            </button>
+            <button
+              className="action-btn"
+              onClick={() => {
+                setRenameModalVisible(true)
+                setSelectedRow(row)
+              }}
+            >
+              <img src={EditIcon} />
+            </button>
+            <button className="action-btn">
+              <img src={RemoveIcon} />
+            </button>
+          </div>
+        )
+      },
+    },
+  ]
 
   return (
     <Dialog
@@ -79,23 +93,12 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
           <img src={CloseIcon} className="mr-2" onClick={() => closeDialog()} />
         </div>
         <BootstrapTable
+          keyField="id"
           data={analysesData}
+          columns={columns}
           bordered={false}
-          className="h-100"
-          version="4"
-        >
-          <TableHeaderColumn isKey dataField="name" dataFormat={nameFormater}>
-            Analysis Name
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="created">Analysis Period</TableHeaderColumn>
-          <TableHeaderColumn dataField="created" dataSort>
-            Creation Date
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="action"
-            dataFormat={actionFormater}
-          ></TableHeaderColumn>
-        </BootstrapTable>
+          bootstrap4
+        />
       </div>
     </Dialog>
   )

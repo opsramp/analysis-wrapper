@@ -19,7 +19,7 @@
     "opsramp-design-system": "^0.4.14",
     "prettier": "^2.1.1",
     "react": "^16.13.1",
-    "react-bootstrap-table": "^4.3.1",
+    "react-bootstrap-table-next": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-select": "^3.1.0",
