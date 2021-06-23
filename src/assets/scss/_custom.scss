@@ -247,13 +247,23 @@ header {
 
 .the-panel {
   position: relative;
-  // z-index: 2;
-}
-
-.action-divider {
-  
 }
 
 body {
   background-color: #E5E5E5 !important;
+}
+
+.react-bootstrap-table-pagination {
+  margin: 0 !important;
+  .pagination {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: 30px;
+    width: fit-content;
+  }
+}
+
+.responsive-table {
+  height: calc(100vh - 130px);
+  overflow: auto;
 }

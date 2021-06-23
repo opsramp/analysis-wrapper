@@ -1,25 +1,36 @@
 import React, { useState, useEffect } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
+import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
 import { API_URL } from "config"
 import { localFullDate, localDate } from "utils"
 
+const SIZE_PER_PAGE = 20
+
 const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
   const [runsData, setRunsData] = useState([])
+  const [page, setPage] = useState(1)
+  const [totalSize, setTotalSize] = useState(null)
+
+  const fetchData = (pageNo, sort = null) =>
+    fetch(
+      `${API_URL}/analysis-runs/?page=${pageNo}${sort ? `&ordering=${sort}` : ""}`
+    )
+      .then((res) => res.json())
+      .then(
+        (response) => {
+          setTotalSize(response.count)
+          setRunsData(response.results)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
 
   useEffect(() => {
     if (showDialog) {
-      fetch(`${API_URL}/analysis-runs/`)
-        .then((res) => res.json())
-        .then(
-          (response) => {
-            setRunsData(response.results)
-          },
-          (error) => {
-            console.log(error)
-          }
-        )
+      fetchData(1)
     }
   }, [showDialog])
 
@@ -35,6 +46,7 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
     {
       dataField: "date_launched",
       text: "Date Submitted",
+      sort: true,
       formatter: (cell) => localFullDate(cell),
     },
     {
@@ -52,12 +64,22 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
     },
   ]
 
+  const handleTableChange = (type, { page, sortField, sortOrder }) => {
+    let sort = null
+
+    if (sortField && sortOrder)
+      sort = sortOrder === "asc" ? sortField : `-${sortField}`
+
+    fetchData(page, sort)
+    setPage(page)
+  }
+
   return (
     <Dialog
       aria-label="Runs Modal"
       isOpen={showDialog}
       onDismiss={closeDialog}
-      style={{ width: "100%", maxWidth: "100%", height: "100%", margin: 0 }}
+      style={{ width: "100%", maxWidth: "100%", minHeight: "100vh", margin: 0 }}
       className="dialog"
     >
       <div className="h-100">
@@ -65,13 +87,24 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
           <h5 className="font-semibold">Runs</h5>
           <img src={CloseIcon} className="mr-2" onClick={() => closeDialog()} />
         </div>
-        <BootstrapTable
-          keyField="id"
-          data={runsData}
-          columns={columns}
-          bordered={false}
-          bootstrap4
-        />
+        {runsData.length > 0 && (
+          <BootstrapTable
+            wrapperClasses="responsive-table"
+            remote
+            keyField="id"
+            data={runsData}
+            pagination={paginationFactory({
+              page,
+              sizePerPage: SIZE_PER_PAGE,
+              totalSize,
+              hideSizePerPage: true,
+            })}
+            columns={columns}
+            bordered={false}
+            onTableChange={handleTableChange}
+            bootstrap4
+          />
+        )}
       </div>
     </Dialog>
   )

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
+import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
 import CopyIcon from "assets/icons/icon-copy.svg"
 import EditIcon from "assets/icons/icon-edit.svg"
@@ -9,25 +10,43 @@ import RenameModal from "./RenameModal"
 import { API_URL } from "config"
 import { localFullDate, localDate } from "utils"
 
+const SIZE_PER_PAGE = 20
+
 const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
   const [selectedRow, setSelectedRow] = useState(false)
   const [analysesData, setAnalysesData] = useState([])
+  const [page, setPage] = useState(1)
+  const [totalSize, setTotalSize] = useState(null)
+
+  const fetchData = (pageNo, sort = null) =>
+    fetch(`${API_URL}/analyses/?page=${pageNo}${sort ? `&ordering=${sort}` : ""}`)
+      .then((res) => res.json())
+      .then(
+        (response) => {
+          setTotalSize(response.count)
+          setAnalysesData(response.results)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
 
   useEffect(() => {
     if (showDialog) {
-      fetch(`${API_URL}/analyses/`)
-        .then((res) => res.json())
-        .then(
-          (response) => {
-            setAnalysesData(response.results)
-          },
-          (error) => {
-            console.log(error)
-          }
-        )
+      fetchData(1)
     }
   }, [showDialog])
+
+  const handleTableChange = (type, { page, sortField, sortOrder }) => {
+    let sort = null
+
+    if (sortField && sortOrder)
+      sort = sortOrder === "asc" ? sortField : `-${sortField}`
+
+    fetchData(page, sort)
+    setPage(page)
+  }
 
   const columns = [
     {
@@ -93,10 +112,19 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
           <img src={CloseIcon} className="mr-2" onClick={() => closeDialog()} />
         </div>
         <BootstrapTable
+          remote
+          wrapperClasses="responsive-table"
           keyField="id"
           data={analysesData}
+          pagination={paginationFactory({
+            page,
+            sizePerPage: SIZE_PER_PAGE,
+            totalSize,
+            hideSizePerPage: true,
+          })}
           columns={columns}
           bordered={false}
+          onTableChange={handleTableChange}
           bootstrap4
         />
       </div>
