@@ -12,12 +12,13 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
   const [sizePerPage, setSizePerPage] = useState(20)
   const [totalSize, setTotalSize] = useState(null)
 
-  const fetchData = (pageNo, sort = null, sizePerPage) =>
-    fetch(
-      `${API_URL}/analysis-runs/?page=${pageNo}${
-        sort ? `&ordering=${sort}` : ""
-      }&page_size=${sizePerPage || 20}`
-    )
+  const fetchData = (pageNo, sort=null, sizePerPage=20) => {
+    let url = `${API_URL}/analysis-runs/?page=${pageNo}&page_size=${sizePerPage}`;
+    if (sort) {
+      url = url + `&ordering=${sort}`
+    }
+
+    return fetch(url)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -28,6 +29,7 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
           console.log(error)
         }
       )
+  }
 
   useEffect(() => {
     if (showDialog) {
@@ -37,16 +39,16 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
 
   const columns = [
     {
-      dataField: "date_launched",
-      text: "Date Submitted",
+      dataField: "date_completed",
+      text: "Date Run",
       sort: true,
       formatter: (cell, row) => (
         <div className="text-primary">{dateTimeFormatter(cell)}</div>
       ),
     },
     {
-      dataField: "date_completed",
-      text: "Date Run",
+      dataField: "date_launched",
+      text: "Date Submitted",
       sort: true,
       formatter: (cell) => dateTimeFormatter(cell),
     },
