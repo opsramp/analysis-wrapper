@@ -4,7 +4,7 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
 import { API_URL } from "config"
-import { localFullDate, paginationOptions } from "utils"
+import { dateTimeFormatter, dateFormatter, paginationOptions } from "utils"
 
 const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
   const [runsData, setRunsData] = useState([])
@@ -37,31 +37,42 @@ const RunsViewsModal = ({ showDialog, closeDialog, appID }) => {
 
   const columns = [
     {
-      dataField: "date_completed",
-      text: "Date Run",
-      sort: true,
-      formatter: (cell, row) => (
-        <div className="text-primary">{localFullDate(cell)}</div>
-      ),
-    },
-    {
       dataField: "date_launched",
       text: "Date Submitted",
       sort: true,
-      formatter: (cell) => localFullDate(cell),
+      formatter: (cell, row) => (
+        <div className="text-primary">{dateTimeFormatter(cell)}</div>
+      ),
     },
     {
       dataField: "date_completed",
+      text: "Date Run",
+      sort: true,
+      formatter: (cell) => dateTimeFormatter(cell),
+    },
+    {
+      dataField: "period",
       text: "Analysis Period",
-      formatter: (cell) => localFullDate(cell),
+      formatter: (cell, row) => (
+        <div>{dateFormatter(row.params.start_date)} - {dateFormatter(row.params.end_date)}</div>
+      )
+    },
+    {
+      dataField: "scheduled",
+      text: "Scheduled",
+      formatter: () => ('N/A')
     },
     {
       dataField: "analysis_name",
       text: "Analysis Name",
+      formatter: (cell, row) => (
+        <div>{cell} {!row.is_saved && '(unsaved)'}</div>
+      ),
     },
     {
-      dataField: "date_completed",
+      dataField: "processing",
       text: "Processing",
+      formatter: () => ('Complete')
     },
   ]
 

@@ -8,7 +8,7 @@ import RemoveIcon from "assets/icons/icon-remove.svg"
 import CloseIcon from "assets/icons/close.svg"
 import RenameModal from "./RenameModal"
 import { API_URL } from "config"
-import { localFullDate, localDate, paginationOptions } from "utils"
+import { dateTimeFormatter, dateFormatter, paginationOptions } from "utils"
 
 const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
@@ -63,12 +63,12 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
       dataField: "params",
       text: "Analysis Period",
       formatter: (cell, row) =>
-        `${localDate(cell.start_date)} - ${localDate(cell.end_date)}`,
+        `${dateFormatter(cell.start_date)} - ${dateFormatter(cell.end_date)}`,
     },
     {
       dataField: "created",
       text: "Creation Date",
-      formatter: (cell, row) => localFullDate(cell),
+      formatter: (cell, row) => dateTimeFormatter(cell),
     },
     {
       dataField: "action",

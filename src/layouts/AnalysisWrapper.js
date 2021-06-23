@@ -11,6 +11,7 @@ import SavedViewsModal from "components/SavedViewsModal"
 import RunsListModal from "components/RunsListModal"
 import AnalysisLoading from "components/AnalysisLoading"
 import SendModal from "components/SendModal"
+import { triggerRunLoading } from "utils"
 
 const MoreMenu = ({
   openSavedViewDialog,
@@ -71,19 +72,7 @@ const AnalysisWrapper = () => {
       .then((res) => res.json())
       .then(
         (result) => {
-          const oapInStoreId = window.oapInStoreId || "_oap_data_in_"
-          localStorage.setItem(oapInStoreId, JSON.stringify(result["analysis-run"]))
-          let e = new StorageEvent({})
-          e.initStorageEvent(
-            "storage",
-            false,
-            false,
-            oapInStoreId,
-            null,
-            JSON.stringify(result["analysis-run"])
-          )
-          window.dispatchEvent(e)
-
+          triggerRunLoading(result["analysis-run"]);
           setLoading(false)
         },
         // Note: it's important to handle errors here

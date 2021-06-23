@@ -44,10 +44,7 @@ const AppDateRangePicker = ({ title }) => {
 
   const onChange = (item) => {
     setState([item.selection])
-    localStorage.setItem(
-      "op-filter-start-date",
-      item.selection.startDate.toISOString()
-    )
+    localStorage.setItem("op-filter-start-date", item.selection.startDate.toISOString())
     localStorage.setItem("op-filter-end-date", item.selection.endDate.toISOString())
   }
 
