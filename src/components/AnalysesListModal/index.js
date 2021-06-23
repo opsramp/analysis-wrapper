@@ -10,7 +10,7 @@ import RenameModal from "./RenameModal"
 import { API_URL } from "config"
 import { dateTimeFormatter, dateFormatter, paginationOptions } from "utils"
 
-const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
+const AnalysesListModal = ({ showDialog, closeDialog, appID }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
   const [selectedRow, setSelectedRow] = useState(false)
   const [analysesData, setAnalysesData] = useState([])
@@ -57,18 +57,18 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
       dataField: "name",
       text: "Analysis Name",
       sort: true,
-      formatter: (cell, row) => <div className="text-primary">{cell}</div>,
+      formatter: (cell) => <div className="text-primary">{cell}</div>
     },
     {
       dataField: "params",
       text: "Analysis Period",
-      formatter: (cell, row) =>
-        `${dateFormatter(cell.start_date)} - ${dateFormatter(cell.end_date)}`,
+      formatter: (cell) => (cell.period)
     },
     {
       dataField: "created",
       text: "Creation Date",
-      formatter: (cell, row) => dateTimeFormatter(cell),
+      sort: true,
+      formatter: (cell) => dateTimeFormatter(cell)
     },
     {
       dataField: "action",
@@ -99,7 +99,7 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
 
   return (
     <Dialog
-      aria-label="Share Modal"
+      aria-label="Saved Analyses Modal"
       isOpen={showDialog}
       onDismiss={closeDialog}
       style={{ width: "100%", maxWidth: "100%", height: "100%", margin: 0 }}
@@ -112,7 +112,7 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
           selectedRow={selectedRow}
         />
         <div className="dialog-header justify-content-between">
-          <h5 className="font-semibold">Saved Analysis</h5>
+          <h5 className="font-semibold">Saved Analyses</h5>
           <img src={CloseIcon} className="mr-2" onClick={() => closeDialog()} />
         </div>
         <BootstrapTable
@@ -136,4 +136,4 @@ const SavedViewsModal = ({ showDialog, closeDialog, appID }) => {
   )
 }
 
-export default SavedViewsModal
+export default AnalysesListModal

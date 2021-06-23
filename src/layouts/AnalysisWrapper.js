@@ -7,7 +7,7 @@ import {
   CDropdown,
 } from "@coreui/react"
 
-import SavedViewsModal from "components/SavedViewsModal"
+import AnalysesListModal from "components/AnalysesListModal"
 import RunsListModal from "components/RunsListModal"
 import AnalysisLoading from "components/AnalysisLoading"
 import SendModal from "components/SendModal"
@@ -88,7 +88,7 @@ const AnalysisWrapper = () => {
     <>
       {loading && <AnalysisLoading />}
       <div className="the-panel bg-white h-100" style={{ borderRadius: 5 }}>
-        <SavedViewsModal
+        <AnalysesListModal
           showDialog={showSavedDialog}
           closeDialog={() => openSavedViewDialog(false)}
         />

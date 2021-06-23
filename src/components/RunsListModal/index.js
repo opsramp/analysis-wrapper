@@ -48,7 +48,7 @@ const RunsViewsModal = ({ showDialog, closeDialog }) => {
       text: "Date Run",
       sort: true,
       formatter: (cell, row) => (
-        <div className="btn btn-link" onClick={()=>loadRun(row.id)}>{dateTimeFormatter(cell)}</div>
+        <div className="btn btn-link" style={{fontSize: 14}} onClick={()=>loadRun(row.id)}>{dateTimeFormatter(cell)}</div>
       ),
     },
     {

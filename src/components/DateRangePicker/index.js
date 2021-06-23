@@ -43,6 +43,7 @@ const AppDateRangePicker = ({ title }) => {
   useOutsideAlerter(wrapperRef, () => setShow(false))
 
   const onChange = (item) => {
+    console.log(item, 123);
     setState([item.selection])
     localStorage.setItem("op-filter-start-date", item.selection.startDate.toISOString())
     localStorage.setItem("op-filter-end-date", item.selection.endDate.toISOString())
