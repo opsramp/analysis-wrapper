@@ -1,6 +1,6 @@
 import React from "react"
 
-const AnalysisLoading = () => (
+const AnalysisLoading = ({title}) => (
   <div className="data-loading">
     <div className="data-loading__bar d-flex align-items-center justify-content-center">
       <div className="lds-ring">
@@ -9,7 +9,7 @@ const AnalysisLoading = () => (
         <div />
       </div>
       <p className="text-primary mb-0">
-        <strong>ANALYZING</strong>
+        <strong>{title}</strong>
       </p>
     </div>
   </div>

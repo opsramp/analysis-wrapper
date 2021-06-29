@@ -11,11 +11,12 @@ import AnalysesListModal from "components/AnalysesListModal"
 import RunsListModal from "components/RunsListModal"
 import AnalysisLoading from "components/AnalysisLoading"
 import SendModal from "components/SendModal"
-import { triggerRunLoading } from "utils"
+import { triggerRunLoading, downloadReport } from "utils"
+import { API_URL } from "config"
 
 const MoreMenu = ({
   openSavedViewDialog,
-  openShareDialog,
+  exportReport,
   openSendAnalysisScheduleDialog,
   openSendAnalysisDialog,
 }) => (
@@ -34,7 +35,7 @@ const MoreMenu = ({
       <CDropdownItem>
         <hr />
       </CDropdownItem>
-      <CDropdownItem onClick={() => openShareDialog(true)}>Export</CDropdownItem>
+      <CDropdownItem onClick={() => exportReport()}>Export</CDropdownItem>
       <CDropdownItem onClick={() => openSendAnalysisDialog(true)}>
         Send Now
       </CDropdownItem>
@@ -54,7 +55,7 @@ const AnalysisWrapper = () => {
   const [reportPeriod, setReportPeriod] = useState(null)
 
   const runAnalysis = () => {
-    setLoading(true)
+    setLoading('ANALYZING')
 
     fetch(`https://localhost/analytics-apps/compute`, {
       method: "POST",
@@ -79,9 +80,36 @@ const AnalysisWrapper = () => {
       )
   }
 
+  const exportAnalysis = () => {
+    const url = `${API_URL}/analysis-exports/`
+    const oapInStoreId = window.oapInStoreId || "_oap_data_in_"
+    setLoading('GENERATING')
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        run: JSON.parse(localStorage.getItem(oapInStoreId)),
+      }),
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          downloadReport(result.url, 'Report.pdf')
+          setLoading(false)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+  }
+
   return (
     <>
-      {loading && <AnalysisLoading />}
+      {loading && <AnalysisLoading title={loading} />}
       <div className="the-panel bg-white h-100" style={{ borderRadius: 5 }}>
         <AnalysesListModal
           showDialog={showSavedDialog}
@@ -117,7 +145,7 @@ const AnalysisWrapper = () => {
               <span>
                 <MoreMenu
                   openSavedViewDialog={openSavedViewDialog}
-                  openShareDialog={openSavedViewDialog}
+                  exportReport={exportAnalysis}
                   openSendAnalysisDialog={openSendAnalysisDialog}
                   openSendAnalysisScheduleDialog={openSendAnalysisScheduleDialog}
                 />
