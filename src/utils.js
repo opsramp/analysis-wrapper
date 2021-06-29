@@ -4,10 +4,11 @@ import Moment from 'react-moment';
 export const dateTimeFormatter = (date) => date ? <Moment date={new Date(date)} format="MM/DD/YY hh:mm:ss A" /> : '-'
 export const dateFormatter = (date) => date ? <Moment date={new Date(date)} format="MM/DD/YY" /> : '-'
 
-export const triggerRunLoading = (runId) => {
-  const oapInStoreId = window.oapInStoreId || "_oap_data_in_"
-  localStorage.setItem(oapInStoreId, JSON.stringify(runId))
-  let e = new StorageEvent({})
+export const triggerRunLoading = (runId, analysisId) => {
+  const oapInStoreId = window.oapInStoreId || "_oap_data_in_";
+  localStorage.setItem(oapInStoreId, JSON.stringify(runId));
+  localStorage.setItem("oap-analysis-id", JSON.stringify(analysisId));
+  let e = new StorageEvent({});
   e.initStorageEvent(
     "storage",
     false,
@@ -15,8 +16,8 @@ export const triggerRunLoading = (runId) => {
     oapInStoreId,
     null,
     JSON.stringify(runId)
-  )
-  window.dispatchEvent(e)
+  );
+  window.dispatchEvent(e);
 }
 
 export const downloadReport = (uri, name) => {

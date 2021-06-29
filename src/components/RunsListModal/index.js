@@ -31,8 +31,8 @@ const RunsViewsModal = ({ showDialog, closeDialog }) => {
       )
   }
 
-  const loadRun = (runId) => {
-    triggerRunLoading(runId);
+  const loadRun = (run) => {
+    triggerRunLoading(run.id, run.analysis);
     closeDialog();
   }
 
@@ -48,7 +48,7 @@ const RunsViewsModal = ({ showDialog, closeDialog }) => {
       text: "Date Run",
       sort: true,
       formatter: (cell, row) => (
-        <div className="btn btn-link" style={{fontSize: 14}} onClick={()=>loadRun(row.id)}>{dateTimeFormatter(cell)}</div>
+        <div className="btn btn-link" style={{fontSize: 14}} onClick={()=>loadRun(row)}>{dateTimeFormatter(cell)}</div>
       ),
     },
     {

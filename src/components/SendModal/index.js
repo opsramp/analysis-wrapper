@@ -1,12 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { Dialog, Button } from "opsramp-design-system"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import CustomSelect from "../CustomSelect"
 import CloseIcon from "assets/icons/close.svg"
 import { API_URL } from "config"
+import AnalysisContext from '../../AnalysisContext';
 
-const formatOptions = [{ value: "PDF", label: "PDF" }]
+const formatOptions = [{ value: "pdf", label: "PDF" }]
 
 const frequencyOptions = [
   { value: "daily", label: "Daily" },
@@ -26,23 +27,28 @@ const weekOptions = [
 ]
 
 const recipientOptions = [
-  { value: "0", label: "John Smith" },
-  { value: "1", label: "North America Sales" },
+  { value: "2", label: "John Smith" },
+  { value: "3", label: "North America Sales" },
 ]
 
 const getReceipientsArray = (recepients) => {
   return recepients.split(",").map((re) => parseInt(re))
 }
 
-const SendModal = ({ showDialog, closeDialog, analysis, isSchedule = false }) => {
+const SendModal = ({ showDialog, closeDialog, isSchedule = false }) => {
   const [selectedFrequency, setFrequency] = useState(frequencyOptions[0].value)
   const [loading, setLoading] = useState(false)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
+  const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const handleSubmit = (values) => {
     setLoading(true)
     fetch(`${API_URL}/analysis-sends/`, {
       method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         ...values,
         analysis: analysis.id,
@@ -141,7 +147,7 @@ const SendModal = ({ showDialog, closeDialog, analysis, isSchedule = false }) =>
           }}
           initialValues={{
             subject: "",
-            format: "PDF",
+            format: "pdf",
             schedule: "",
             message: "",
             recepients: "",
@@ -159,7 +165,7 @@ const SendModal = ({ showDialog, closeDialog, analysis, isSchedule = false }) =>
               <div className="dialog-header">
                 <h5 className="font-semibold">
                   Send {isSchedule ? "On A Schedule" : "Now"} - Analysis:{" "}
-                  <i>{analysis.title}</i>
+                  <i>{analysis.name}</i>
                 </h5>
               </div>
               <div className="dialog-content bg-grey-100">

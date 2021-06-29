@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
@@ -7,8 +7,9 @@ import EditIcon from "assets/icons/icon-edit.svg"
 import RemoveIcon from "assets/icons/icon-remove.svg"
 import CloseIcon from "assets/icons/close.svg"
 import RenameModal from "./RenameModal"
-import { API_URL } from "config"
-import { dateTimeFormatter, dateFormatter, paginationOptions } from "utils"
+import { API_URL, APP_ID } from "config"
+import { dateTimeFormatter, paginationOptions } from "utils"
+import AnalysisContext from '../../AnalysisContext';
 
 const AnalysesListModal = ({ showDialog, closeDialog, appID }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
@@ -17,6 +18,7 @@ const AnalysesListModal = ({ showDialog, closeDialog, appID }) => {
   const [page, setPage] = useState(1)
   const [sizePerPage, setSizePerPage] = useState(20)
   const [totalSize, setTotalSize] = useState(null)
+  const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const fetchData = (pageNo, sort = null, sizePerPage) =>
     fetch(
@@ -52,12 +54,17 @@ const AnalysesListModal = ({ showDialog, closeDialog, appID }) => {
     setSizePerPage(sizePerPage)
   }
 
+  const loadAnalysis = (analysis) => {
+    setAnalysis(analysis);
+    closeDialog();
+  }
+
   const columns = [
     {
       dataField: "name",
       text: "Analysis Name",
       sort: true,
-      formatter: (cell) => <div className="text-primary">{cell}</div>
+      formatter: (cell, row) => <div className="btn btn-link" style={{fontSize: 14}} onClick={()=>loadAnalysis(row)}>{cell}</div>
     },
     {
       dataField: "params",

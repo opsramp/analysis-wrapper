@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import DateRangePicker from "components/DateRangePicker"
 import {
   CDropdownToggle,
@@ -13,9 +13,10 @@ import AnalysisLoading from "components/AnalysisLoading"
 import SendModal from "components/SendModal"
 import { triggerRunLoading, downloadReport } from "utils"
 import { API_URL } from "config"
+import AnalysisContext from '../AnalysisContext';
 
 const MoreMenu = ({
-  openSavedViewDialog,
+  openAnalysesListDialog,
   exportReport,
   openSendAnalysisScheduleDialog,
   openSendAnalysisDialog,
@@ -26,7 +27,7 @@ const MoreMenu = ({
     </CDropdownToggle>
     <CDropdownMenu placement="bottom-start">
       <CDropdownItem>New</CDropdownItem>
-      <CDropdownItem onClick={() => openSavedViewDialog(true)}>Open</CDropdownItem>
+      <CDropdownItem onClick={() => openAnalysesListDialog(true)}>Open</CDropdownItem>
       <CDropdownItem>
         <hr />
       </CDropdownItem>
@@ -47,12 +48,13 @@ const MoreMenu = ({
 )
 
 const AnalysisWrapper = () => {
-  const [showSavedDialog, openSavedViewDialog] = useState(false)
-  const [showRunsDialog, openRunsDialog] = useState(false)
+  const [showSavedDialog, openAnalysesListDialog] = useState(false)
+  const [showRunsDialog, openRunsListDialog] = useState(false)
   const [showSendAnalysisDialog, openSendAnalysisDialog] = useState(false)
   const [showSendAnalysisScheduleDialog, openSendAnalysisScheduleDialog] = useState(false)
   const [loading, setLoading] = useState(false)
   const [reportPeriod, setReportPeriod] = useState(null)
+  const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const runAnalysis = () => {
     setLoading('ANALYZING')
@@ -71,7 +73,7 @@ const AnalysisWrapper = () => {
       .then((res) => res.json())
       .then(
         (result) => {
-          triggerRunLoading(result["analysis-run"]);
+          triggerRunLoading(result["analysis-run"], result["analysis"]);
           setLoading(false)
         },
         (error) => {
@@ -110,30 +112,23 @@ const AnalysisWrapper = () => {
   return (
     <>
       {loading && <AnalysisLoading title={loading} />}
+
       <div className="the-panel bg-white h-100" style={{ borderRadius: 5 }}>
         <AnalysesListModal
           showDialog={showSavedDialog}
-          closeDialog={() => openSavedViewDialog(false)}
+          closeDialog={() => openAnalysesListDialog(false)}
         />
         <RunsListModal
           showDialog={showRunsDialog}
-          closeDialog={() => openRunsDialog(false)}
+          closeDialog={() => openRunsListDialog(false)}
         />
         <SendModal
           showDialog={showSendAnalysisDialog}
-          analysis={{
-            title: "North America",
-            id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          }}
           closeDialog={() => openSendAnalysisDialog(false)}
         />
         <SendModal
           showDialog={showSendAnalysisScheduleDialog}
           isSchedule={true}
-          analysis={{
-            title: "North America",
-            id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          }}
           closeDialog={() => openSendAnalysisScheduleDialog(false)}
         />
         <div className="h-100 p-5">
@@ -144,14 +139,14 @@ const AnalysisWrapper = () => {
               </h6>
               <span>
                 <MoreMenu
-                  openSavedViewDialog={openSavedViewDialog}
+                  openAnalysesListDialog={openAnalysesListDialog}
                   exportReport={exportAnalysis}
                   openSendAnalysisDialog={openSendAnalysisDialog}
                   openSendAnalysisScheduleDialog={openSendAnalysisScheduleDialog}
                 />
               </span>
             </div>
-            <p>North America</p>
+            <p>{analysis ? analysis.name : 'Untitled'}</p>
           </section>
           <section className="pt-5">
             <div className="d-flex justify-content-between align-items-center mb-5">
@@ -183,7 +178,7 @@ const AnalysisWrapper = () => {
                 <div className="action-divider"></div>
                 <div
                   className="d-flex align-items-center ml-5 cursor-pointer"
-                  onClick={() => openRunsDialog(true)}
+                  onClick={() => openRunsListDialog(true)}
                 >
                   <svg
                     width="16"

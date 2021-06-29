@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import { createBrowserHistory } from "history"
 import { Router } from "react-router-dom"
+
+import AnalysisContext from './AnalysisContext';
 
 import "./assets/scss/style.scss"
 
@@ -10,10 +12,15 @@ import Routes from "./Routes"
 const history = createBrowserHistory()
 
 const App = () => {
+  const [analysis, setAnalysis] = useState(null);
+  const value = { analysis, setAnalysis };
+
   return (
-    <Router history={history}>
-      <Routes />
-    </Router>
+    <AnalysisContext.Provider value={value}>
+      <Router history={history}>
+        <Routes />
+      </Router>
+    </AnalysisContext.Provider>
   )
 }
 
