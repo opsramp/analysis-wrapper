@@ -11,20 +11,21 @@ import { API_URL, APP_ID } from "config"
 import { dateTimeFormatter, paginationOptions } from "utils"
 import AnalysisContext from '../../AnalysisContext';
 
-const AnalysesListModal = ({ showDialog, closeDialog, appID }) => {
+const AnalysesListModal = ({ showDialog, closeDialog }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
   const [selectedRow, setSelectedRow] = useState(false)
   const [analysesData, setAnalysesData] = useState([])
   const [page, setPage] = useState(1)
   const [sizePerPage, setSizePerPage] = useState(20)
+  const [sort, setSort] = useState(null)
   const [totalSize, setTotalSize] = useState(null)
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
-  const fetchData = (pageNo, sort = null, sizePerPage) =>
+  const fetchData = () =>
     fetch(
-      `${API_URL}/analyses/?app=${APP_ID}&page=${pageNo}${
+      `${API_URL}/analyses/?app=${APP_ID}&page=${page}${
         sort ? `&ordering=${sort}` : ""
-      }&page_size=${sizePerPage || 20}`
+      }&page_size=${sizePerPage}`
     )
       .then((res) => res.json())
       .then(
@@ -39,19 +40,21 @@ const AnalysesListModal = ({ showDialog, closeDialog, appID }) => {
 
   useEffect(() => {
     if (showDialog) {
-      fetchData(1)
+      fetchData();
     }
   }, [showDialog])
 
   const handleTableChange = (type, { page, sizePerPage, sortField, sortOrder }) => {
     let sort = null
 
-    if (sortField && sortOrder)
+    if (sortField && sortOrder) {
       sort = sortOrder === "asc" ? sortField : `-${sortField}`
+    }
 
-    fetchData(page, sort, sizePerPage)
-    setPage(page)
-    setSizePerPage(sizePerPage)
+    setPage(page);
+    setSort(sort);
+    setSizePerPage(sizePerPage);
+    fetchData();
   }
 
   const loadAnalysis = (analysis) => {
