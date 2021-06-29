@@ -20,13 +20,14 @@ const MoreMenu = ({
   exportReport,
   openSendAnalysisScheduleDialog,
   openSendAnalysisDialog,
-}) => (
-  <CDropdown>
+  setAnalysis
+}) => {
+  return <CDropdown>
     <CDropdownToggle className="action-btn p-0" caret={false}>
       •••
     </CDropdownToggle>
     <CDropdownMenu placement="bottom-start">
-      <CDropdownItem>New</CDropdownItem>
+      <CDropdownItem onClick={() => {setAnalysis(null)}}>New</CDropdownItem>
       <CDropdownItem onClick={() => openAnalysesListDialog(true)}>Open</CDropdownItem>
       <CDropdownItem>
         <hr />
@@ -45,7 +46,8 @@ const MoreMenu = ({
       </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
-)
+}
+
 
 const AnalysisWrapper = () => {
   const [showSavedDialog, openAnalysesListDialog] = useState(false)
@@ -139,6 +141,7 @@ const AnalysisWrapper = () => {
               </h6>
               <span>
                 <MoreMenu
+                  setAnalysis={setAnalysis}
                   openAnalysesListDialog={openAnalysesListDialog}
                   exportReport={exportAnalysis}
                   openSendAnalysisDialog={openSendAnalysisDialog}

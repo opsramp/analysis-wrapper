@@ -1,10 +1,32 @@
-import React from "react"
+import React, { useState } from "react"
 import { Dialog, Button } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
+import { API_URL } from "config"
 
-const RenameModal = ({ showDialog, closeDialog, selectedRow }) => {
+const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable }) => {
+  const [newName, setNewName] = useState(analysis.name)
+
   const onSave = () => {
-    closeDialog()
+    fetch(`${API_URL}/analyses/${analysis.id}/`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newName
+      }),
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          reloadTable();
+          closeDialog();
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
   }
 
   return (
@@ -27,7 +49,7 @@ const RenameModal = ({ showDialog, closeDialog, selectedRow }) => {
         <p className="mb-5">Enter a new name for the analysis</p>
         <div className="form-group">
           <label>New Name</label>
-          <input className="form-control" value={selectedRow.name}></input>
+          <input className="form-control" type="text" defaultValue={analysis.name} onChange={(e) => setNewName(e.target.value)}></input>
         </div>
       </div>
       <div className="dialog-footer justify-content-end bg-grey-100">
@@ -45,4 +67,4 @@ const RenameModal = ({ showDialog, closeDialog, selectedRow }) => {
   )
 }
 
-export default RenameModal
+export default RenameAnalysisModal

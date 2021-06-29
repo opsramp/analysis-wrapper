@@ -6,14 +6,14 @@ import CopyIcon from "assets/icons/icon-copy.svg"
 import EditIcon from "assets/icons/icon-edit.svg"
 import RemoveIcon from "assets/icons/icon-remove.svg"
 import CloseIcon from "assets/icons/close.svg"
-import RenameModal from "./RenameModal"
+import RenameAnalysisModal from "./RenameAnalysisModal"
 import { API_URL, APP_ID } from "config"
 import { dateTimeFormatter, paginationOptions } from "utils"
 import AnalysisContext from '../../AnalysisContext';
 
 const AnalysesListModal = ({ showDialog, closeDialog }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
-  const [selectedRow, setSelectedRow] = useState(false)
+  const [selectedAnalysis, setSelectedAnalysis] = useState(false)
   const [analysesData, setAnalysesData] = useState([])
   const [page, setPage] = useState(1)
   const [sizePerPage, setSizePerPage] = useState(20)
@@ -93,7 +93,7 @@ const AnalysesListModal = ({ showDialog, closeDialog }) => {
               className="action-btn"
               onClick={() => {
                 setRenameModalVisible(true)
-                setSelectedRow(row)
+                setSelectedAnalysis(row)
               }}
             >
               <img src={EditIcon} />
@@ -116,10 +116,11 @@ const AnalysesListModal = ({ showDialog, closeDialog }) => {
       className="dialog"
     >
       <div className="h-100">
-        <RenameModal
+        <RenameAnalysisModal
           showDialog={renameModalVisible}
           closeDialog={() => setRenameModalVisible(false)}
-          selectedRow={selectedRow}
+          analysis={selectedAnalysis}
+          reloadTable={fetchData}
         />
         <div className="dialog-header justify-content-between">
           <h5 className="font-semibold">Saved Analyses</h5>
