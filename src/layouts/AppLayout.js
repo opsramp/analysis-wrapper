@@ -1,28 +1,8 @@
-import React, { useEffect, useContext } from "react"
+import React from "react"
 
 import AnalysisWrapper from "./AnalysisWrapper"
-import AnalysisContext from '../AnalysisContext';
-import { API_URL } from "config"
 
 const AppLayout = () => {
-  const { analysis, setAnalysis } = useContext(AnalysisContext);
-
-  // useEffect(() => {
-  //   const analysisId = '900065f2-12d9-4cee-874d-e246f1e4a67f';
-  //   const url = `${API_URL}/analyses/${analysisId}/`;
-
-  //   fetch(url)
-  //     .then((res) => res.json())
-  //     .then(
-  //       (response) => {
-  //         setAnalysis(response)
-  //       },
-  //       (error) => {
-  //         console.log(error)
-  //       }
-  //     )
-  // }, []);
-
   return (
     <div
       className="c-default-layout h-100"

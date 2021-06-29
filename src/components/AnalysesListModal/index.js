@@ -22,7 +22,7 @@ const AnalysesListModal = ({ showDialog, closeDialog, appID }) => {
 
   const fetchData = (pageNo, sort = null, sizePerPage) =>
     fetch(
-      `${API_URL}/analyses/?page=${pageNo}${
+      `${API_URL}/analyses/?app=${APP_ID}&page=${pageNo}${
         sort ? `&ordering=${sort}` : ""
       }&page_size=${sizePerPage || 20}`
     )
