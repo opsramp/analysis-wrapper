@@ -11,11 +11,12 @@ const RunsViewsModal = ({ showDialog, closeDialog }) => {
   const [runsData, setRunsData] = useState([])
   const [page, setPage] = useState(1)
   const [sizePerPage, setSizePerPage] = useState(20)
+  const [sort, setSort] = useState(null)
   const [totalSize, setTotalSize] = useState(null)
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
-  const fetchData = (pageNo, sort=null, sizePerPage=20) => {
-    let url = `${API_URL}/analysis-runs/?analysis=${analysis.id}&page=${pageNo}&page_size=${sizePerPage}`;
+  const fetchData = () => {
+    let url = `${API_URL}/analysis-runs/?analysis=${analysis.id}&page=${page}&page_size=${sizePerPage}`;
     if (sort) {
       url = url + `&ordering=${sort}`
     }
@@ -39,8 +40,8 @@ const RunsViewsModal = ({ showDialog, closeDialog }) => {
   }
 
   useEffect(() => {
-    if (showDialog) {
-      fetchData(1)
+    if (showDialog && analysis) {
+      fetchData()
     }
   }, [showDialog])
 
@@ -88,12 +89,14 @@ const RunsViewsModal = ({ showDialog, closeDialog }) => {
   const handleTableChange = (type, { page, sizePerPage, sortField, sortOrder }) => {
     let sort = null
 
-    if (sortField && sortOrder)
+    if (sortField && sortOrder) {
       sort = sortOrder === "asc" ? sortField : `-${sortField}`
+    }
 
-    fetchData(page, sort, sizePerPage)
-    setPage(page)
-    setSizePerPage(sizePerPage)
+    setPage(page);
+    setSort(sort);
+    setSizePerPage(sizePerPage);
+    fetchData();
   }
 
   return (
