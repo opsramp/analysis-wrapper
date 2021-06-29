@@ -53,7 +53,7 @@ const AnalysisWrapper = () => {
   const [showSendAnalysisDialog, openSendAnalysisDialog] = useState(false)
   const [showSendAnalysisScheduleDialog, openSendAnalysisScheduleDialog] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [reportPeriod, setReportPeriod] = useState(null)
+  const [reportPeriod, setReportPeriod] = useState({startDate: new Date(), endDate: new Date()})
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const runAnalysis = () => {
