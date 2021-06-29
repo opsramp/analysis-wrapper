@@ -20,7 +20,8 @@ const MoreMenu = ({
   exportReport,
   openSendAnalysisScheduleDialog,
   openSendAnalysisDialog,
-  setAnalysis
+  setAnalysis,
+  analysis
 }) => {
   return <CDropdown>
     <CDropdownToggle className="action-btn p-0" caret={false}>
@@ -38,10 +39,10 @@ const MoreMenu = ({
         <hr />
       </CDropdownItem>
       <CDropdownItem onClick={() => exportReport()}>Export</CDropdownItem>
-      <CDropdownItem onClick={() => openSendAnalysisDialog(true)}>
+      <CDropdownItem disabled={!analysis} onClick={() => openSendAnalysisDialog(true)}>
         Send Now
       </CDropdownItem>
-      <CDropdownItem onClick={() => openSendAnalysisScheduleDialog(true)}>
+      <CDropdownItem disabled={!analysis} onClick={() => openSendAnalysisScheduleDialog(true)}>
         Send On A Schedule
       </CDropdownItem>
     </CDropdownMenu>
@@ -75,7 +76,7 @@ const AnalysisWrapper = () => {
       .then((res) => res.json())
       .then(
         (result) => {
-          triggerRunLoading(result["analysis-run"], result["analysis"]);
+          triggerRunLoading(result["analysis-run"]);
           setLoading(false)
         },
         (error) => {
@@ -141,6 +142,7 @@ const AnalysisWrapper = () => {
               </h6>
               <span>
                 <MoreMenu
+                  analysis={analysis}
                   setAnalysis={setAnalysis}
                   openAnalysesListDialog={openAnalysesListDialog}
                   exportReport={exportAnalysis}
@@ -149,7 +151,7 @@ const AnalysisWrapper = () => {
                 />
               </span>
             </div>
-            <p>{analysis ? analysis.name : 'Untitled'}</p>
+            <p>{analysis ? analysis.name : 'Untitled (unsaved)'}</p>
           </section>
           <section className="pt-5">
             <div className="d-flex justify-content-between align-items-center mb-5">

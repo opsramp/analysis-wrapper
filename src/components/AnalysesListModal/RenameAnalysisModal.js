@@ -60,7 +60,7 @@ const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable })
           CANCEL
         </a>
         <Button className="ml-4 px-5" onClick={() => onSave()}>
-          Save
+          SAVE
         </Button>
       </div>
     </Dialog>

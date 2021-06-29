@@ -35,7 +35,7 @@ const RunsViewsModal = ({ showDialog, closeDialog }) => {
   }
 
   const loadRun = (run) => {
-    triggerRunLoading(run.id, run.analysis);
+    triggerRunLoading(run.id);
     closeDialog();
   }
 
