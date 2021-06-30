@@ -7,7 +7,7 @@ import { API_URL } from "config"
 import { dateTimeFormatter, dateFormatter, triggerRunLoading, paginationOptions } from "utils"
 import AnalysisContext from '../../AnalysisContext';
 
-const RunsViewsModal = ({ showDialog, closeDialog }) => {
+const RunsViewsModal = ({ showDialog, closeDialog, setRunId }) => {
   const [runsData, setRunsData] = useState([])
   const [page, setPage] = useState(1)
   const [sizePerPage, setSizePerPage] = useState(20)
@@ -35,6 +35,7 @@ const RunsViewsModal = ({ showDialog, closeDialog }) => {
   }
 
   const loadRun = (run) => {
+    setRunId(run.id);
     triggerRunLoading(run.id);
     closeDialog();
   }

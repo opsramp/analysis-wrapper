@@ -21,14 +21,15 @@ const MoreMenu = ({
   openSendAnalysisScheduleDialog,
   openSendAnalysisDialog,
   setAnalysis,
-  analysis
+  analysis,
+  runId
 }) => {
   return <CDropdown>
     <CDropdownToggle className="action-btn p-0" caret={false}>
       •••
     </CDropdownToggle>
     <CDropdownMenu placement="bottom-start">
-      <CDropdownItem onClick={() => {setAnalysis(null)}}>New</CDropdownItem>
+      <CDropdownItem onClick={() => {setAnalysis({name: 'Untitled', is_unsaved: true})}}>New</CDropdownItem>
       <CDropdownItem onClick={() => openAnalysesListDialog(true)}>Open</CDropdownItem>
       <CDropdownItem>
         <hr />
@@ -38,11 +39,11 @@ const MoreMenu = ({
       <CDropdownItem>
         <hr />
       </CDropdownItem>
-      <CDropdownItem onClick={() => exportReport()}>Export</CDropdownItem>
-      <CDropdownItem disabled={!analysis.id} onClick={() => openSendAnalysisDialog(true)}>
+      <CDropdownItem disabled={!runId} onClick={() => exportReport()}>Export</CDropdownItem>
+      <CDropdownItem disabled={!analysis.id || analysis.is_unsaved} onClick={() => openSendAnalysisDialog(true)}>
         Send Now
       </CDropdownItem>
-      <CDropdownItem disabled={!analysis.id} onClick={() => openSendAnalysisScheduleDialog(true)}>
+      <CDropdownItem disabled={!analysis.id || analysis.is_unsaved} onClick={() => openSendAnalysisScheduleDialog(true)}>
         Send On A Schedule
       </CDropdownItem>
     </CDropdownMenu>
@@ -57,6 +58,7 @@ const AnalysisWrapper = () => {
   const [showSendAnalysisScheduleDialog, openSendAnalysisScheduleDialog] = useState(false)
   const [loading, setLoading] = useState(false)
   const [reportPeriod, setReportPeriod] = useState({startDate: new Date(), endDate: new Date()})
+  const [runId, setRunId] = useState(null);
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const runAnalysis = () => {
@@ -76,6 +78,7 @@ const AnalysisWrapper = () => {
       .then((res) => res.json())
       .then(
         (result) => {
+          setRunId(result["analysis-run"]);
           triggerRunLoading(result["analysis-run"]);
           setLoading(false)
         },
@@ -124,6 +127,7 @@ const AnalysisWrapper = () => {
         <RunsListModal
           showDialog={showRunsDialog}
           closeDialog={() => openRunsListDialog(false)}
+          setRunId={setRunId}
         />
         <SendModal
           showDialog={showSendAnalysisDialog}
@@ -143,6 +147,7 @@ const AnalysisWrapper = () => {
               <span>
                 <MoreMenu
                   analysis={analysis}
+                  runId={runId}
                   setAnalysis={setAnalysis}
                   openAnalysesListDialog={openAnalysesListDialog}
                   exportReport={exportAnalysis}
