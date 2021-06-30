@@ -12,7 +12,7 @@ import Routes from "./Routes"
 const history = createBrowserHistory()
 
 const App = () => {
-  const [analysis, setAnalysis] = useState(null);
+  const [analysis, setAnalysis] = useState({name: 'Untitled', is_unsaved: true});
   const value = { analysis, setAnalysis };
 
   return (

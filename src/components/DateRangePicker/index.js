@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useContext } from "react"
 import moment from "moment"
 import "react-date-time-range-picker/dist/styles.css" // main style file
 import "react-date-time-range-picker/dist/theme/default.css" // theme css file
 import { DateRangePicker } from "react-date-time-range-picker"
+import AnalysisContext from '../../AnalysisContext';
 
 import { subHours } from "date-fns"
 
@@ -30,6 +31,8 @@ function useOutsideAlerter(ref, callback) {
 
 const AppDateRangePicker = ({ title, setReportPeriod }) => {
   const [show, setShow] = useState(false)
+  const { analysis, setAnalysis } = useContext(AnalysisContext);
+
   const [state, setState] = useState([
     {
       startDate: subHours(new Date(), 24),
@@ -43,8 +46,10 @@ const AppDateRangePicker = ({ title, setReportPeriod }) => {
   useOutsideAlerter(wrapperRef, () => setShow(false))
 
   const onChange = (item) => {
-    setState([item.selection])
-    setReportPeriod(item.selection)
+    setState([item.selection]);
+    setReportPeriod(item.selection);
+    const is_unsaved = !analysis.id || analysis.params.period !== item.selection.label;
+    setAnalysis(prevState => ({ ...prevState, is_unsaved }));
   }
 
   return (

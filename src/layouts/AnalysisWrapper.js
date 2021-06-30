@@ -34,15 +34,15 @@ const MoreMenu = ({
         <hr />
       </CDropdownItem>
       <CDropdownItem>Save</CDropdownItem>
-      <CDropdownItem>Save As</CDropdownItem>
+      <CDropdownItem disabled={!analysis.id}>Save As</CDropdownItem>
       <CDropdownItem>
         <hr />
       </CDropdownItem>
       <CDropdownItem onClick={() => exportReport()}>Export</CDropdownItem>
-      <CDropdownItem disabled={!analysis} onClick={() => openSendAnalysisDialog(true)}>
+      <CDropdownItem disabled={!analysis.id} onClick={() => openSendAnalysisDialog(true)}>
         Send Now
       </CDropdownItem>
-      <CDropdownItem disabled={!analysis} onClick={() => openSendAnalysisScheduleDialog(true)}>
+      <CDropdownItem disabled={!analysis.id} onClick={() => openSendAnalysisScheduleDialog(true)}>
         Send On A Schedule
       </CDropdownItem>
     </CDropdownMenu>
@@ -151,7 +151,7 @@ const AnalysisWrapper = () => {
                 />
               </span>
             </div>
-            <p>{analysis ? analysis.name : 'Untitled (unsaved)'}</p>
+            <p>{analysis.name} {analysis.is_unsaved ? '(unsaved)' : ''}</p>
           </section>
           <section className="pt-5">
             <div className="d-flex justify-content-between align-items-center mb-5">
