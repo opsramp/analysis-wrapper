@@ -30,7 +30,7 @@ function useOutsideAlerter(ref, callback) {
 
 const AppDateRangePicker = ({ title, setReportPeriod, analysis, setAnalysis }) => {
   const [show, setShow] = useState(false)
-  const [state, setState] = useState([{}])
+  const [state, setState] = useState({})
 
   useEffect(() => {
     let startDate;
@@ -57,7 +57,7 @@ const AppDateRangePicker = ({ title, setReportPeriod, analysis, setAnalysis }) =
       label: analysis.params.period,
     };
 
-    setState([selection]);
+    setState(selection);
     setReportPeriod(selection);
   }, [analysis.id]);
 
@@ -65,7 +65,7 @@ const AppDateRangePicker = ({ title, setReportPeriod, analysis, setAnalysis }) =
   useOutsideAlerter(wrapperRef, () => setShow(false))
 
   const onChange = (item) => {
-    setState([item.selection]);
+    setState(item.selection);
     setReportPeriod(item.selection);
     const is_unsaved = !analysis.id || analysis.params.period !== item.selection.label;
     setAnalysis(prevState => ({ ...prevState, is_unsaved }));
@@ -76,11 +76,11 @@ const AppDateRangePicker = ({ title, setReportPeriod, analysis, setAnalysis }) =
       <p className="text-grey mb-1">{title}</p>
       <div className="date-range-input" onClick={() => setShow(!show)}>
         <span className="mr-auto">
-          {state[0].label
-            ? state[0].label
-            : moment(state[0].startDate).format("M/DD/YY") +
+          {state.label
+            ? state.label
+            : moment(state.startDate).format("M/DD/YY") +
               " - " +
-              moment(state[0].endDate).format("M/DD/YY")}
+              moment(state.endDate).format("M/DD/YY")}
         </span>
         <i className="icon-chevron-down ml-auto" />
       </div>
@@ -89,7 +89,7 @@ const AppDateRangePicker = ({ title, setReportPeriod, analysis, setAnalysis }) =
           maxDate={new Date()}
           mylocale="enUS"
           onChange={(item) => onChange(item)}
-          ranges={state}
+          ranges={[state]}
         />
       )}
     </div>
