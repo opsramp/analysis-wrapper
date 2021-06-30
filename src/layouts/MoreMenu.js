@@ -21,7 +21,7 @@ const MoreMenu = ({
       •••
     </CDropdownToggle>
     <CDropdownMenu placement="bottom-start">
-      <CDropdownItem onClick={() => {setAnalysis({name: 'Untitled', is_unsaved: true})}}>New</CDropdownItem>
+      <CDropdownItem onClick={() => {setAnalysis({name: 'Untitled', is_unsaved: true, params: {period: 'Last 24 Hours'}})}}>New</CDropdownItem>
       <CDropdownItem onClick={() => openAnalysesListDialog(true)}>Open</CDropdownItem>
       <CDropdownItem>
         <hr />

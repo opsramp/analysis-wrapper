@@ -3,16 +3,14 @@ import { createBrowserHistory } from "history"
 import { Router } from "react-router-dom"
 
 import AnalysisContext from './AnalysisContext';
+import Routes from "./Routes"
 
 import "./assets/scss/style.scss"
-
-// All Routes
-import Routes from "./Routes"
 
 const history = createBrowserHistory()
 
 const App = () => {
-  const [analysis, setAnalysis] = useState({name: 'Untitled', is_unsaved: true});
+  const [analysis, setAnalysis] = useState({name: 'Untitled', is_unsaved: true, params: {period: 'Last 24 Hours'}});
   const value = { analysis, setAnalysis };
 
   return (

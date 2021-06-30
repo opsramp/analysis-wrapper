@@ -4,7 +4,7 @@ import "react-date-time-range-picker/dist/styles.css" // main style file
 import "react-date-time-range-picker/dist/theme/default.css" // theme css file
 import { DateRangePicker } from "react-date-time-range-picker"
 
-import { subHours } from "date-fns"
+import { subDays, subHours } from "date-fns"
 
 import "./style.scss"
 
@@ -30,15 +30,36 @@ function useOutsideAlerter(ref, callback) {
 
 const AppDateRangePicker = ({ title, setReportPeriod, analysis, setAnalysis }) => {
   const [show, setShow] = useState(false)
+  const [state, setState] = useState([{}])
 
-  const [state, setState] = useState([
-    {
-      startDate: subHours(new Date(), 24),
-      endDate: new Date(),
+  useEffect(() => {
+    let startDate;
+    let endDate = new Date();
+
+    if (analysis.params.period == 'Last Hour') {
+      startDate = subHours(new Date(), 1);
+    } else if (analysis.params.period == 'Last 4 Hours') {
+      startDate = subHours(new Date(), 4);
+    } else if (analysis.params.period == 'Last 8 Hours') {
+      startDate = subHours(new Date(), 8);
+    } else if (analysis.params.period == 'Last 24 Hours') {
+      startDate = subHours(new Date(), 24);
+    } else if (analysis.params.period == 'Last 7 Days') {
+      startDate = subDays(new Date(), 7);
+    } else if (analysis.params.period == 'Last 30 Days') {
+      startDate = subDays(new Date(), 30);
+    }
+
+    const selection = {
+      startDate: startDate,
+      endDate: endDate,
       key: "selection",
-      label: "Last 4 Hours",
-    },
-  ])
+      label: analysis.params.period,
+    };
+
+    setState([selection]);
+    setReportPeriod(selection);
+  }, [analysis.id]);
 
   const wrapperRef = useRef(null)
   useOutsideAlerter(wrapperRef, () => setShow(false))
