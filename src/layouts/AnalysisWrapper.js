@@ -184,7 +184,12 @@ const AnalysisWrapper = () => {
                 </div>
               </div>
             </div>
-            <DateRangePicker title="Analysis Period" setReportPeriod={setReportPeriod} />
+            <DateRangePicker
+              title="Analysis Period"
+              setReportPeriod={setReportPeriod}
+              analysis={analysis}
+              setAnalysis={setAnalysis}
+            />
           </section>
         </div>
       </div>
