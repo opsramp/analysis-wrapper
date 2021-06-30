@@ -11,7 +11,7 @@ import { API_URL, APP_ID } from "config"
 import { dateTimeFormatter, paginationOptions } from "utils"
 import AnalysisContext from '../../AnalysisContext';
 
-const AnalysesListModal = ({ showDialog, closeDialog }) => {
+const AnalysesList = ({ showDialog, closeDialog }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
   const [selectedAnalysis, setSelectedAnalysis] = useState(false)
   const [analysesData, setAnalysesData] = useState([])
@@ -147,4 +147,4 @@ const AnalysesListModal = ({ showDialog, closeDialog }) => {
   )
 }
 
-export default AnalysesListModal
+export default AnalysesList

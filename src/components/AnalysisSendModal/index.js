@@ -35,7 +35,7 @@ const getReceipientsArray = (recepients) => {
   return recepients.split(",").map((re) => parseInt(re))
 }
 
-const SendModal = ({ showDialog, closeDialog, isSchedule = false }) => {
+const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule = false }) => {
   const [selectedFrequency, setFrequency] = useState(frequencyOptions[0].value)
   const [loading, setLoading] = useState(false)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
@@ -298,4 +298,4 @@ const SendModal = ({ showDialog, closeDialog, isSchedule = false }) => {
   )
 }
 
-export default SendModal
+export default AnalysisSendModal
