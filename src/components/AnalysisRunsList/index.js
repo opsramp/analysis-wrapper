@@ -1,19 +1,17 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
 import { API_URL } from "config"
 import { dateTimeFormatter, dateFormatter, triggerRunLoading, paginationOptions } from "utils"
-import AnalysisContext from '../../AnalysisContext';
 
-const AnalysisRunsList = ({ showDialog, closeDialog, setRunId }) => {
+const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
   const [runsData, setRunsData] = useState([])
   const [page, setPage] = useState(1)
   const [sizePerPage, setSizePerPage] = useState(20)
   const [sort, setSort] = useState(null)
   const [totalSize, setTotalSize] = useState(null)
-  const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const fetchData = () => {
     let url = `${API_URL}/analysis-runs/?analysis=${analysis.id}&page=${page}&page_size=${sizePerPage}`;
@@ -41,7 +39,7 @@ const AnalysisRunsList = ({ showDialog, closeDialog, setRunId }) => {
   }
 
   useEffect(() => {
-    if (showDialog && analysis) {
+    if (showDialog && analysis.id) {
       fetchData()
     }
   }, [showDialog])

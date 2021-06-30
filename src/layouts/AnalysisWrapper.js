@@ -86,6 +86,7 @@ const AnalysisWrapper = () => {
         <AnalysisRunsList
           showDialog={showRunsDialog}
           closeDialog={() => openRunsListDialog(false)}
+          analysis={analysis}
           setRunId={setRunId}
         />
         <AnalysisSendModal
