@@ -6,13 +6,15 @@ import AnalysisRunsList from "components/AnalysisRunsList"
 import LoadingDialog from "components/LoadingDialog"
 import AnalysisSendModal from "components/AnalysisSendModal"
 import { triggerRunLoading, downloadReport } from "utils"
-import { API_URL } from "config"
+import { API_URL, APP_ID } from "config"
 import AnalysisContext from '../AnalysisContext'
 import MoreMenu from "./MoreMenu"
+import SaveAnalysisModal from "./SaveAnalysisModal"
 
 const AnalysisWrapper = () => {
   const [showSavedDialog, openAnalysesListDialog] = useState(false);
   const [showRunsDialog, openRunsListDialog] = useState(false);
+  const [isOpenSaveAnalysisModal, setIsOpenSaveAnalysisModal] = useState(false);
   const [showSendAnalysisDialog, openSendAnalysisDialog] = useState(false);
   const [showSendAnalysisScheduleDialog, openSendAnalysisScheduleDialog] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -74,6 +76,42 @@ const AnalysisWrapper = () => {
       )
   }
 
+  const saveAnalysis = (name, isSaveAs) => {
+    const url = (!analysis.id || isSaveAs) ? `${API_URL}/analyses/` : `${API_URL}/analyses/${analysis.id}/`;
+    const method = (!analysis.id || isSaveAs) ? 'POST' : 'PUT';
+
+    fetch(url, {
+      method,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        params: { period: reportPeriod.label },
+        app: APP_ID
+      }),
+    })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setAnalysis(result);
+          setIsOpenSaveAnalysisModal(false);
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+  }
+
+  const onSaveAnalysis = (isSaveAs) => {
+    if (!analysis.id || isSaveAs) {
+      setIsOpenSaveAnalysisModal();
+    } else {
+      saveAnalysis(analysis.name);
+    }
+  }
+
   return (
     <>
       {loading && <LoadingDialog title={loading} />}
@@ -88,6 +126,12 @@ const AnalysisWrapper = () => {
           closeDialog={() => openRunsListDialog(false)}
           analysis={analysis}
           setRunId={setRunId}
+        />
+        <SaveAnalysisModal
+          showDialog={isOpenSaveAnalysisModal}
+          closeDialog={() => setIsOpenSaveAnalysisModal(false)}
+          analysis={analysis}
+          saveAnalysis={saveAnalysis}
         />
         <AnalysisSendModal
           showDialog={showSendAnalysisDialog}
@@ -113,6 +157,7 @@ const AnalysisWrapper = () => {
                   exportReport={exportAnalysis}
                   openSendAnalysisDialog={openSendAnalysisDialog}
                   openSendAnalysisScheduleDialog={openSendAnalysisScheduleDialog}
+                  onSaveAnalysis={onSaveAnalysis}
                 />
               </span>
             </div>

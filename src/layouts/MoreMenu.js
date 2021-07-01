@@ -12,6 +12,7 @@ const MoreMenu = ({
   exportReport,
   openSendAnalysisScheduleDialog,
   openSendAnalysisDialog,
+  onSaveAnalysis,
   setAnalysis,
   analysis,
   runId
@@ -26,8 +27,8 @@ const MoreMenu = ({
       <CDropdownItem>
         <hr />
       </CDropdownItem>
-      <CDropdownItem>Save</CDropdownItem>
-      <CDropdownItem disabled={!analysis.id}>Save As</CDropdownItem>
+      <CDropdownItem onClick={() => onSaveAnalysis(false)}>Save</CDropdownItem>
+      <CDropdownItem disabled={!analysis.id} onClick={() => onSaveAnalysis(true)}>Save As</CDropdownItem>
       <CDropdownItem>
         <hr />
       </CDropdownItem>
