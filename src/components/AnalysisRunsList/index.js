@@ -43,6 +43,8 @@ const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
   useEffect(() => {
     if (showDialog && analysis.id) {
       fetchData()
+    } else {
+      setRunsData([]);
     }
   }, [showDialog])
 
