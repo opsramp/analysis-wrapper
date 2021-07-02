@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import DateRangePicker from "components/DateRangePicker"
 
 import AnalysesList from "components/AnalysesList"
@@ -10,6 +10,8 @@ import { API_URL, APP_ID } from "config"
 import AnalysisContext from '../AnalysisContext'
 import MoreMenu from "./MoreMenu"
 import SaveAnalysisModal from "./SaveAnalysisModal"
+
+const oapInStoreId = window.oapInStoreId || "_oap_data_in_";
 
 const AnalysisWrapper = () => {
   const [showSavedDialog, openAnalysesListDialog] = useState(false);
@@ -34,6 +36,7 @@ const AnalysisWrapper = () => {
       body: JSON.stringify({
         start_date: reportPeriod.startDate.toISOString(),
         end_date: reportPeriod.endDate.toISOString(),
+        analysis_id: analysis.id
       }),
     })
       .then((res) => res.json())
@@ -49,9 +52,15 @@ const AnalysisWrapper = () => {
       )
   }
 
+  useEffect(() => {
+    const rId = localStorage.getItem(oapInStoreId);
+    if (rId) {
+      setRunId(JSON.parse(rId));
+    }
+  }, []);
+
   const exportAnalysis = () => {
     const url = `${API_URL}/analysis-exports/`
-    const oapInStoreId = window.oapInStoreId || "_oap_data_in_"
     setLoading('GENERATING')
 
     fetch(url, {
@@ -61,7 +70,7 @@ const AnalysisWrapper = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        run: JSON.parse(localStorage.getItem(oapInStoreId)),
+        run: runId,
       }),
     })
       .then((res) => res.json())

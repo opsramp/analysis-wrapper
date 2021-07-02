@@ -6,6 +6,8 @@ import CloseIcon from "assets/icons/close.svg"
 import { API_URL } from "config"
 import { dateTimeFormatter, dateFormatter, triggerRunLoading, paginationOptions } from "utils"
 
+const emptyDataMessage = () => { return 'No Data to Display';}
+
 const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
   const [runsData, setRunsData] = useState([])
   const [page, setPage] = useState(1)
@@ -114,6 +116,7 @@ const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
         {runsData.length > 0 && (
           <BootstrapTable
             wrapperClasses="responsive-table"
+            noDataIndication={emptyDataMessage}
             remote
             keyField="id"
             data={runsData}
