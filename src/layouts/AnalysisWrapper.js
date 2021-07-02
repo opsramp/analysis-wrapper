@@ -145,11 +145,13 @@ const AnalysisWrapper = () => {
         <AnalysisSendModal
           showDialog={showSendAnalysisDialog}
           closeDialog={() => openSendAnalysisDialog(false)}
+          setLoading={setLoading}
         />
         <AnalysisSendModal
           showDialog={showSendAnalysisScheduleDialog}
           isSchedule={true}
           closeDialog={() => openSendAnalysisScheduleDialog(false)}
+          setLoading={setLoading}
         />
         <div className="h-100 p-5">
           <section className="mb-5">

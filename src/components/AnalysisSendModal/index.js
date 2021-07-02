@@ -35,14 +35,13 @@ const getReceipientsArray = (recepients) => {
   return recepients.split(",").map((re) => parseInt(re))
 }
 
-const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule = false }) => {
+const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) => {
   const [selectedFrequency, setFrequency] = useState(frequencyOptions[0].value)
-  const [loading, setLoading] = useState(false)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const handleSubmit = (values) => {
-    setLoading(true)
+    setLoading('SENDING')
     fetch(`${API_URL}/analysis-sends/`, {
       method: "POST",
       headers: {
