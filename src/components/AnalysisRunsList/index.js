@@ -42,9 +42,10 @@ const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
 
   useEffect(() => {
     if (showDialog && analysis.id) {
-      fetchData()
+      fetchData();
     } else {
       setRunsData([]);
+      setTotalSize(0);
     }
   }, [showDialog])
 
@@ -115,25 +116,23 @@ const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
           <h5 className="font-semibold">Runs</h5>
           <img src={CloseIcon} className="mr-2" onClick={() => closeDialog()} />
         </div>
-        {runsData.length > 0 && (
-          <BootstrapTable
-            wrapperClasses="responsive-table"
-            noDataIndication={emptyDataMessage}
-            remote
-            keyField="id"
-            data={runsData}
-            pagination={paginationFactory({
-              ...paginationOptions,
-              page,
-              totalSize,
-              sizePerPage,
-            })}
-            columns={columns}
-            bordered={false}
-            onTableChange={handleTableChange}
-            bootstrap4
-          />
-        )}
+        <BootstrapTable
+          wrapperClasses="responsive-table"
+          noDataIndication={emptyDataMessage}
+          remote
+          keyField="id"
+          data={runsData}
+          pagination={paginationFactory({
+            ...paginationOptions,
+            page,
+            totalSize,
+            sizePerPage,
+          })}
+          columns={columns}
+          bordered={false}
+          onTableChange={handleTableChange}
+          bootstrap4
+        />
       </div>
     </Dialog>
   )
