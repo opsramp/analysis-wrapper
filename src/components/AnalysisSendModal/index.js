@@ -10,20 +10,20 @@ import AnalysisContext from '../../AnalysisContext';
 const formatOptions = [{ value: "pdf", label: "PDF" }]
 
 const frequencyOptions = [
-  { value: "daily", label: "Daily" },
+  { value: "0 0 * * *", label: "Daily" },
   { value: "weekly", label: "Weekly" },
-  { value: "monthly", label: "Monthly" },
-  { value: "quarterly", label: "Quarterly" },
+  { value: "0 0 1 * *", label: "Monthly" },
+  { value: "0 0 1 * MON", label: "Quarterly" },
 ]
 
 const weekOptions = [
-  { value: "Mo", label: "Monday" },
-  { value: "Tu", label: "Tuesday" },
-  { value: "We", label: "Wednesday" },
-  { value: "Th", label: "Thursday" },
-  { value: "Fr", label: "Friday" },
-  { value: "Sa", label: "Saturday" },
-  { value: "Su", label: "Sunday" },
+  { value: "MON", label: "Monday" },
+  { value: "TUE", label: "Tuesday" },
+  { value: "WED", label: "Wednesday" },
+  { value: "THU", label: "Thursday" },
+  { value: "FRI", label: "Friday" },
+  { value: "SAT", label: "Saturday" },
+  { value: "SUN", label: "Sunday" },
 ]
 
 const recipientOptions = [
@@ -37,10 +37,19 @@ const getReceipientsArray = (recepients) => {
 
 const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) => {
   const [selectedFrequency, setFrequency] = useState(frequencyOptions[0].value)
+  const [weekday, setWeekDay] = useState(weekOptions[0].value)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const handleSubmit = (values) => {
+    let cron = null;
+    if (isSchedule) {
+      cron = selectedFrequency;
+      if (selectedFrequency == 'weekly') {
+        cron = "0 0 * * " + weekday;
+      };
+    }
+
     setLoading('SENDING')
     fetch(`${API_URL}/analysis-sends/`, {
       method: "POST",
@@ -52,6 +61,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
         ...values,
         analysis: analysis.id,
         recepients: getReceipientsArray(values.recepients),
+        schedule: cron
       }),
     })
       .then((res) => res.json())
@@ -245,8 +255,16 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
                       <div className="col-4">
                         {selectedFrequency === "weekly" && (
                           <CustomSelect
+                            id="day"
+                            name="day"
                             options={weekOptions}
                             defaultValue={weekOptions[0]}
+                            onChange={(option) => {
+                              props.handleChange("day")(
+                                option ? option.value : ""
+                              )
+                              setWeekDay(option ? option.value : "")
+                            }}
                           />
                         )}
                       </div>
