@@ -20,8 +20,8 @@ const AnalysisWrapper = () => {
   const [showSavedDialog, openAnalysesListDialog] = useState(false);
   const [showRunsDialog, openRunsListDialog] = useState(false);
   const [isOpenSaveAnalysisModal, setIsOpenSaveAnalysisModal] = useState(false);
-  const [showSendAnalysisDialog, openSendAnalysisDialog] = useState(false);
-  const [showSendAnalysisScheduleDialog, openSendAnalysisScheduleDialog] = useState(false);
+  const [isOpenSendAnalysisModal, setIsOpenSendAnalysisModal] = useState(false);
+  const [isSchedule, setIsSchedule] = useState(false);
   const [loading, setLoading] = useState(false);
   const [reportPeriod, setReportPeriod] = useState(null);
   const [runId, setRunId] = useState(null);
@@ -147,14 +147,9 @@ const AnalysisWrapper = () => {
           saveAnalysis={saveAnalysis}
         />
         <AnalysisSendModal
-          showDialog={showSendAnalysisDialog}
-          closeDialog={() => openSendAnalysisDialog(false)}
-          setLoading={setLoading}
-        />
-        <AnalysisSendModal
-          showDialog={showSendAnalysisScheduleDialog}
-          isSchedule={true}
-          closeDialog={() => openSendAnalysisScheduleDialog(false)}
+          showDialog={isOpenSendAnalysisModal}
+          isSchedule={isSchedule}
+          closeDialog={() => setIsOpenSendAnalysisModal(false)}
           setLoading={setLoading}
         />
         <div className="h-100 p-5">
@@ -170,8 +165,8 @@ const AnalysisWrapper = () => {
                   setAnalysis={setAnalysis}
                   openAnalysesListDialog={openAnalysesListDialog}
                   exportReport={exportAnalysis}
-                  openSendAnalysisDialog={openSendAnalysisDialog}
-                  openSendAnalysisScheduleDialog={openSendAnalysisScheduleDialog}
+                  setIsOpenSendAnalysisModal={setIsOpenSendAnalysisModal}
+                  setIsSchedule={setIsSchedule}
                   onSaveAnalysis={onSaveAnalysis}
                 />
               </span>

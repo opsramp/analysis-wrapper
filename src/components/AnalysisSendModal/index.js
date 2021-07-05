@@ -266,12 +266,15 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
               </div>
               <div className="dialog-footer justify-content-between bg-grey-100">
                 <span>
+                {
+                  isSchedule &&
                   <a
                     onClick={() => setOpenConfirmModal(true)}
                     className="d-flex text-black text-bold cursor-pointer"
                   >
                     DELETE SECHEDULED SEND
                   </a>
+                }
                 </span>
                 <div className="d-flex align-items-center">
                   <span>

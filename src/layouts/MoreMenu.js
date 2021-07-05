@@ -10,8 +10,8 @@ import {
 const MoreMenu = ({
   openAnalysesListDialog,
   exportReport,
-  openSendAnalysisScheduleDialog,
-  openSendAnalysisDialog,
+  setIsOpenSendAnalysisModal,
+  setIsSchedule,
   onSaveAnalysis,
   setAnalysis,
   analysis,
@@ -33,10 +33,10 @@ const MoreMenu = ({
         <hr />
       </CDropdownItem>
       <CDropdownItem disabled={!runId} onClick={() => exportReport()}>Export</CDropdownItem>
-      <CDropdownItem disabled={!analysis.id || analysis.is_unsaved} onClick={() => openSendAnalysisDialog(true)}>
+      <CDropdownItem disabled={!analysis.id || analysis.is_unsaved} onClick={() => {setIsOpenSendAnalysisModal(true); setIsSchedule(false);}}>
         Send Now
       </CDropdownItem>
-      <CDropdownItem disabled={!analysis.id || analysis.is_unsaved} onClick={() => openSendAnalysisScheduleDialog(true)}>
+      <CDropdownItem disabled={!analysis.id || analysis.is_unsaved} onClick={() => {setIsOpenSendAnalysisModal(true); setIsSchedule(true);}}>
         Send On A Schedule
       </CDropdownItem>
     </CDropdownMenu>
