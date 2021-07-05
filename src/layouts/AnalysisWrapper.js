@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from "react"
-import DateRangePicker from "components/DateRangePicker"
 
+import DateRangePicker from "components/DateRangePicker"
 import AnalysesList from "components/AnalysesList"
 import AnalysisRunsList from "components/AnalysisRunsList"
 import LoadingDialog from "components/LoadingDialog"
 import AnalysisSendModal from "components/AnalysisSendModal"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { triggerRunLoading, downloadReport } from "utils"
 import { API_URL, APP_ID } from "config"
 import AnalysisContext from '../AnalysisContext'
@@ -106,6 +109,7 @@ const AnalysisWrapper = () => {
         (result) => {
           setAnalysis(result);
           setIsOpenSaveAnalysisModal(false);
+          toast.success("Analysis Saved.");
         },
         (error) => {
           console.log(error)
@@ -241,6 +245,7 @@ const AnalysisWrapper = () => {
                 </div>
               </div>
             </div>
+            <ToastContainer />
             <DateRangePicker
               title="Analysis Period"
               setReportPeriod={setReportPeriod}
