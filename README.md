@@ -13,6 +13,7 @@ This project will be compiled into static files and be embedded into the sdk.
 
 - Run the Project
 ```
+npm config set registry http://everest-npm-registry.com/
 npm install
 npm run start
 ```
