@@ -3,8 +3,7 @@ import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
-import { API_URL } from "config"
-import { dateTimeFormatter, dateFormatter, triggerRunLoading, paginationOptions } from "utils"
+import { dateTimeFormatter, dateFormatter, triggerRunLoading, paginationOptions, getApiUrl } from "utils"
 
 const emptyDataMessage = () => { return 'No Data to Display';}
 
@@ -14,6 +13,8 @@ const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
   const [sizePerPage, setSizePerPage] = useState(20)
   const [sort, setSort] = useState(null)
   const [totalSize, setTotalSize] = useState(null)
+
+  const API_URL = getApiUrl();
 
   const fetchData = () => {
     let url = `${API_URL}/analysis-runs/?analysis=${analysis.id}&page=${page}&page_size=${sizePerPage}`;

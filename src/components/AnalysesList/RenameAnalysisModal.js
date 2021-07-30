@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import { Dialog, Button } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
-import { API_URL } from "config"
+import { getApiUrl } from "utils"
 
 const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable }) => {
   const [newName, setNewName] = useState(analysis.name)
+
+  const API_URL = getApiUrl();
 
   const onSave = () => {
     fetch(`${API_URL}/analyses/${analysis.id}/`, {

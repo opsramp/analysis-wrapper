@@ -4,9 +4,8 @@ import { Formik } from "formik"
 import * as Yup from "yup"
 import CustomSelect from "../CustomSelect"
 import CloseIcon from "assets/icons/close.svg"
-import { API_URL } from "config"
 import AnalysisContext from '../../AnalysisContext';
-
+import { getApiUrl } from 'utils'
 const formatOptions = [{ value: "pdf", label: "PDF" }]
 
 const frequencyOptions = [
@@ -40,6 +39,8 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
   const [weekday, setWeekDay] = useState(weekOptions[0].value)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const { analysis, setAnalysis } = useContext(AnalysisContext);
+
+  const API_URL = getApiUrl();
 
   const handleSubmit = (values) => {
     let cron = null;

@@ -8,13 +8,11 @@ import AnalysisSendModal from "components/AnalysisSendModal"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { triggerRunLoading, downloadReport } from "utils"
-import { API_URL, APP_ID } from "config"
+import { triggerRunLoading, downloadReport, getApiUrl, getAppId, getInStoreId } from "utils"
 import AnalysisContext from '../AnalysisContext'
 import MoreMenu from "./MoreMenu"
 import SaveAnalysisModal from "./SaveAnalysisModal"
 
-const oapInStoreId = window.oapInStoreId || "_oap_data_in_";
 
 const AnalysisWrapper = () => {
   const [showSavedDialog, openAnalysesListDialog] = useState(false);
@@ -26,6 +24,10 @@ const AnalysisWrapper = () => {
   const [reportPeriod, setReportPeriod] = useState(null);
   const [runId, setRunId] = useState(null);
   const { analysis, setAnalysis } = useContext(AnalysisContext);
+
+  const API_URL = getApiUrl();
+  const APP_ID = getAppId();
+  const oapInStoreId = getInStoreId();
 
   const runAnalysis = () => {
     setLoading('ANALYZING')

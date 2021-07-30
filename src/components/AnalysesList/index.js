@@ -7,8 +7,7 @@ import EditIcon from "assets/icons/icon-edit.svg"
 import RemoveIcon from "assets/icons/icon-remove.svg"
 import CloseIcon from "assets/icons/close.svg"
 import RenameAnalysisModal from "./RenameAnalysisModal"
-import { API_URL, APP_ID } from "config"
-import { dateTimeFormatter, paginationOptions } from "utils"
+import { dateTimeFormatter, paginationOptions, getApiUrl, getAppId } from "utils"
 import AnalysisContext from '../../AnalysisContext';
 
 const AnalysesList = ({ showDialog, closeDialog }) => {
@@ -20,6 +19,9 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
   const [sort, setSort] = useState(null)
   const [totalSize, setTotalSize] = useState(null)
   const { analysis, setAnalysis } = useContext(AnalysisContext);
+
+  const API_URL = getApiUrl();
+  const APP_ID = getAppId();
 
   const fetchData = () =>
     fetch(
