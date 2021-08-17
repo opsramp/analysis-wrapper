@@ -4,6 +4,8 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
 import { dateTimeFormatter, dateFormatter, triggerRunLoading, paginationOptions, getApiUrl } from "utils"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const emptyDataMessage = () => { return 'No Data to Display';}
 
@@ -23,16 +25,15 @@ const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
     }
 
     return fetch(url)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          setTotalSize(response.count)
-          setRunsData(response.results)
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+      .then(res => res.json())
+      .then(data => {
+        setTotalSize(data.count)
+        setRunsData(data.results)
+      })
+      .catch(error => {
+        toast.error("Sorry, something is wrong.");
+        console.log('Error:', error);
+      })
   }
 
   const loadRun = (run) => {
@@ -135,6 +136,7 @@ const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
           bootstrap4
         />
       </div>
+      <ToastContainer />
     </Dialog>
   )
 }

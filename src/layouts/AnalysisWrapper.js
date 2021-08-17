@@ -44,17 +44,17 @@ const AnalysisWrapper = () => {
         analysis_id: analysis.id
       }),
     })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setRunId(result["analysis-run"]);
-          triggerRunLoading(result["analysis-run"]);
-          setLoading(false)
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+      .then(res => res.json())
+      .then(data => {
+        setRunId(data["analysis-run"]);
+        triggerRunLoading(data["analysis-run"]);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error("Sorry, something is wrong.");
+        console.log('Error:', error);
+      })
   }
 
   useEffect(() => {
@@ -78,16 +78,16 @@ const AnalysisWrapper = () => {
         run: runId,
       }),
     })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          downloadReport(result.url, 'Report.pdf')
-          setLoading(false)
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+      .then(res => res.json())
+      .then(data => {
+        downloadReport(data.url, 'Report.pdf');
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error("Sorry, something is wrong.");
+        console.log('Error:', error);
+      })
   }
 
   const saveAnalysis = (name, isSaveAs) => {
@@ -107,16 +107,16 @@ const AnalysisWrapper = () => {
       }),
     })
       .then((res) => res.json())
-      .then(
-        (result) => {
-          setAnalysis(result);
-          setIsOpenSaveAnalysisModal(false);
-          toast.success("Analysis Saved.");
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+      .then((data) => {
+        setAnalysis(data);
+        setIsOpenSaveAnalysisModal(false);
+        toast.success("Analysis Saved.");
+      })
+      .catch((error) => {
+        setIsOpenSaveAnalysisModal(false);
+        toast.error("Sorry, something is wrong.");
+        console.log('Error:', error);
+      })
   }
 
   const onSaveAnalysis = (isSaveAs) => {

@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import { Dialog, Button } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
 import { getApiUrl } from "utils"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable }) => {
   const [newName, setNewName] = useState(analysis.name)
@@ -19,16 +21,15 @@ const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable })
         name: newName
       }),
     })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          reloadTable();
-          closeDialog();
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+      .then(res => res.json())
+      .then(data => {
+        reloadTable();
+        closeDialog();
+      })
+      .catch(error => {
+        toast.error("Sorry, something is wrong.");
+        console.log('Error:', error);
+      })
   }
 
   return (
@@ -65,6 +66,7 @@ const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable })
           SAVE
         </Button>
       </div>
+      <ToastContainer />
     </Dialog>
   )
 }

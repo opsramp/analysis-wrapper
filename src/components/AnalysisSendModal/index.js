@@ -6,6 +6,9 @@ import CustomSelect from "../CustomSelect"
 import CloseIcon from "assets/icons/close.svg"
 import AnalysisContext from '../../AnalysisContext';
 import { getApiUrl } from 'utils'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const formatOptions = [{ value: "pdf", label: "PDF" }]
 
 const frequencyOptions = [
@@ -65,38 +68,36 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
         schedule: cron
       }),
     })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          console.log(result)
-          closeDialog()
-          setLoading(false)
-        },
-        (error) => {
-          setLoading(false)
-          console.log(error)
-        }
-      )
+      .then(res => res.json())
+      .then(data => {
+        toast.success("Analysis Sent.");
+        closeDialog();
+        setLoading(false);
+      })
+      .catch(error => {
+        closeDialog();
+        setLoading(false);
+        toast.error("Sorry, something is wrong.");
+        console.log('Error:', error);
+      })
   }
 
   const deleteSchedule = () => {
-    fetch(`${API_URL}/analysis-sends/${analysis.id}`, {
+    fetch(`${API_URL}/analysis-sends/${analysis.id}/`, {
       method: "DELETE",
     })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          console.log(result)
-          setOpenConfirmModal(false)
-          closeDialog()
-          setLoading(false)
-        },
-        (error) => {
-          setOpenConfirmModal(false)
-          setLoading(false)
-          console.log(error)
-        }
-      )
+      .then(res => res.json())
+      .then(data => {
+        setOpenConfirmModal(false)
+        closeDialog()
+        setLoading(false)
+      })
+      .catch((error) => {
+        setOpenConfirmModal(false)
+        setLoading(false)
+        toast.error("Sorry, something is wrong.");
+        console.log('Error:', error);
+      })
   }
 
   return (
@@ -314,6 +315,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
             </form>
           )}
         </Formik>
+        <ToastContainer />
       </Dialog>
     </>
   )

@@ -9,6 +9,8 @@ import CloseIcon from "assets/icons/close.svg"
 import RenameAnalysisModal from "./RenameAnalysisModal"
 import { dateTimeFormatter, paginationOptions, getApiUrl, getAppId } from "utils"
 import AnalysisContext from '../../AnalysisContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AnalysesList = ({ showDialog, closeDialog }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
@@ -29,16 +31,15 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
         sort ? `&ordering=${sort}` : ""
       }&page_size=${sizePerPage}`
     )
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          setTotalSize(response.count)
-          setAnalysesData(response.results)
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+      .then(res => res.json())
+      .then(data => {
+        setTotalSize(data.count)
+        setAnalysesData(data.results)
+      })
+      .catch(error => {
+        toast.error("Sorry, something is wrong.");
+        console.log('Error:', error);
+      });
 
   useEffect(() => {
     if (showDialog) {
@@ -145,6 +146,7 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
           bootstrap4
         />
       </div>
+      <ToastContainer />
     </Dialog>
   )
 }
