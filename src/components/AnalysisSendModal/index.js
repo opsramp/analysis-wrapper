@@ -9,7 +9,10 @@ import { getApiUrl } from 'utils'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const formatOptions = [{ value: "pdf", label: "PDF" }]
+const formatOptions = [
+  { value: "pdf", label: "PDF" },
+  { value: "excel", label: "Excel" }
+]
 
 const frequencyOptions = [
   { value: "0 0 * * *", label: "Daily" },
@@ -231,7 +234,6 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
                       <CustomSelect
                         options={formatOptions}
                         defaultValue={formatOptions[0]}
-                        isDisabled={true}
                       />
                     </div>
                   </div>
