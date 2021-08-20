@@ -161,7 +161,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
           }}
           initialValues={{
             subject: "",
-            format: "pdf",
+            format: "",
             schedule: "",
             message: "",
             recepients: "",
@@ -232,8 +232,13 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
                   <div className="row">
                     <div className="col-4">
                       <CustomSelect
+                        id="format"
+                        name="format"
                         options={formatOptions}
                         defaultValue={formatOptions[0]}
+                        onChange={(option) => {
+                          props.handleChange("format")(option.value)
+                        }}
                       />
                     </div>
                   </div>
