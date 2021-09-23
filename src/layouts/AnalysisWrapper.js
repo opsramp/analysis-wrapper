@@ -8,7 +8,7 @@ import AnalysisSendModal from "components/AnalysisSendModal"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { triggerRunLoading, downloadReport, getApiUrl, getAppId, getInStoreId } from "utils"
+import { triggerRunLoading, downloadReport, getApiUrl, getBasePath, getAppId, getInStoreId } from "utils"
 import AnalysisContext from '../AnalysisContext'
 import MoreMenu from "./MoreMenu"
 import SaveAnalysisModal from "./SaveAnalysisModal"
@@ -26,13 +26,14 @@ const AnalysisWrapper = () => {
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const API_URL = getApiUrl();
+  const BASE_PATH = getBasePath();
   const APP_ID = getAppId();
   const oapInStoreId = getInStoreId();
 
   const runAnalysis = () => {
     setLoading('ANALYZING')
 
-    fetch(`https://localhost/analytics-apps/compute`, {
+    fetch(`${BASE_PATH}compute`, {
       method: "POST",
       headers: {
         Accept: "application/json",
