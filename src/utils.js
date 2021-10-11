@@ -4,7 +4,6 @@ import Moment from 'react-moment';
 export const dateTimeFormatter = (date) => date ? <Moment date={new Date(date)} format="MM/DD/YY hh:mm:ss A" /> : '-'
 export const dateFormatter = (date) => date ? <Moment date={new Date(date)} format="MM/DD/YY" /> : '-'
 
-export const getApiUrl = () => (window.OAP_API_URL);
 export const getBasePath = () => (window.OAP_BASE_PATH);
 export const getAppId = () => (window.OAP_APP_ID);
 export const getInStoreId = () => (window.OAP_IN_STORE_ID || "_oap_data_in_");

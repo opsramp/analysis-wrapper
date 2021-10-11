@@ -7,7 +7,7 @@ import EditIcon from "assets/icons/icon-edit.svg"
 import RemoveIcon from "assets/icons/icon-remove.svg"
 import CloseIcon from "assets/icons/close.svg"
 import RenameAnalysisModal from "./RenameAnalysisModal"
-import { dateTimeFormatter, paginationOptions, getApiUrl, getAppId } from "utils"
+import { dateTimeFormatter, paginationOptions, getBasePath, getAppId } from "utils"
 import AnalysisContext from '../../AnalysisContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,12 +22,12 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
   const [totalSize, setTotalSize] = useState(null)
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
-  const API_URL = getApiUrl();
+  const BASE_PATH = getBasePath();
   const APP_ID = getAppId();
 
   const fetchData = () =>
     fetch(
-      `${API_URL}/analyses/?app=${APP_ID}&page=${page}${
+      `${BASE_PATH}/analyses/?app=${APP_ID}&page=${page}${
         sort ? `&ordering=${sort}` : ""
       }&page_size=${sizePerPage}`
     )

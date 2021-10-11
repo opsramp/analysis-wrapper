@@ -8,7 +8,7 @@ import AnalysisSendModal from "components/AnalysisSendModal"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { triggerRunLoading, downloadReport, getApiUrl, getBasePath, getAppId, getInStoreId } from "utils"
+import { triggerRunLoading, downloadReport, getBasePath, getBasePath, getAppId, getInStoreId } from "utils"
 import AnalysisContext from '../AnalysisContext'
 import MoreMenu from "./MoreMenu"
 import SaveAnalysisModal from "./SaveAnalysisModal"
@@ -25,7 +25,6 @@ const AnalysisWrapper = () => {
   const [runId, setRunId] = useState(null);
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
-  const API_URL = getApiUrl();
   const BASE_PATH = getBasePath();
   const APP_ID = getAppId();
   const oapInStoreId = getInStoreId();
@@ -33,7 +32,7 @@ const AnalysisWrapper = () => {
   const runAnalysis = () => {
     setLoading('ANALYZING')
 
-    fetch(`${BASE_PATH}compute`, {
+    fetch(`${BASE_PATH}/compute`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -66,7 +65,7 @@ const AnalysisWrapper = () => {
   }, []);
 
   const exportAnalysis = () => {
-    const url = `${API_URL}/analysis-exports/`
+    const url = `${BASE_PATH}/analysis-exports/`
     setLoading('GENERATING')
 
     fetch(url, {
@@ -92,7 +91,7 @@ const AnalysisWrapper = () => {
   }
 
   const saveAnalysis = (name, isSaveAs) => {
-    const url = (!analysis.id || isSaveAs) ? `${API_URL}/analyses/` : `${API_URL}/analyses/${analysis.id}/`;
+    const url = (!analysis.id || isSaveAs) ? `${BASE_PATH}/analyses/` : `${BASE_PATH}/analyses/${analysis.id}/`;
     const method = (!analysis.id || isSaveAs) ? 'POST' : 'PUT';
 
     fetch(url, {

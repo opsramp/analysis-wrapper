@@ -5,7 +5,7 @@ import * as Yup from "yup"
 import CustomSelect from "../CustomSelect"
 import CloseIcon from "assets/icons/close.svg"
 import AnalysisContext from '../../AnalysisContext';
-import { getApiUrl } from 'utils'
+import { getBasePath } from 'utils'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -46,7 +46,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
-  const API_URL = getApiUrl();
+  const BASE_PATH = getBasePath();
 
   const handleSubmit = (values) => {
     let cron = null;
@@ -58,7 +58,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
     }
 
     setLoading('SENDING')
-    fetch(`${API_URL}/analysis-sends/`, {
+    fetch(`${BASE_PATH}/analysis-sends/`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -86,7 +86,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
   }
 
   const deleteSchedule = () => {
-    fetch(`${API_URL}/analysis-sends/${analysis.id}/`, {
+    fetch(`${BASE_PATH}/analysis-sends/${analysis.id}/`, {
       method: "DELETE",
     })
       .then(res => res.json())

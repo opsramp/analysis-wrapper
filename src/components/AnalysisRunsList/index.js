@@ -3,7 +3,7 @@ import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
-import { dateTimeFormatter, dateFormatter, triggerRunLoading, paginationOptions, getApiUrl } from "utils"
+import { dateTimeFormatter, dateFormatter, triggerRunLoading, paginationOptions, getBasePath } from "utils"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,10 +16,10 @@ const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
   const [sort, setSort] = useState(null)
   const [totalSize, setTotalSize] = useState(null)
 
-  const API_URL = getApiUrl();
+  const BASE_PATH = getBasePath();
 
   const fetchData = () => {
-    let url = `${API_URL}/analysis-runs/?analysis=${analysis.id}&page=${page}&page_size=${sizePerPage}`;
+    let url = `${BASE_PATH}/analysis-runs/?analysis=${analysis.id}&page=${page}&page_size=${sizePerPage}`;
     if (sort) {
       url = url + `&ordering=${sort}`
     }
