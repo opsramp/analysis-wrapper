@@ -39,8 +39,7 @@ const AnalysisWrapper = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        start_date: reportPeriod.startDate.toISOString(),
-        end_date: reportPeriod.endDate.toISOString(),
+        period: analysis.params.period,
         analysis_id: analysis.id
       }),
     })
