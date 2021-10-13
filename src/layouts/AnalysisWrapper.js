@@ -75,7 +75,7 @@ const AnalysisWrapper = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        run: runId,
+        run_id: runId,
       }),
     })
       .then(res => res.json())
@@ -103,7 +103,7 @@ const AnalysisWrapper = () => {
       body: JSON.stringify({
         name: name,
         params: { period: reportPeriod.label },
-        app: APP_ID
+        app_id: APP_ID
       }),
     })
       .then((res) => res.json())

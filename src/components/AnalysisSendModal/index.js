@@ -66,7 +66,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
       },
       body: JSON.stringify({
         ...values,
-        analysis: analysis.id,
+        analysis_id: analysis.id,
         recepients: getReceipientsArray(values.recepients),
         schedule: cron
       }),
