@@ -32,13 +32,10 @@ const weekOptions = [
 ]
 
 const recipientOptions = [
-  { value: "2", label: "John Smith" },
-  { value: "3", label: "North America Sales" },
+  { value: "thirupathaiah.m@opsramp.com", label: "Thirupathi Reddy" },
+  { value: "raju.mummidi@opsramp.com", label: "Raju Mummidi" },
+  { value: "it.corridor051@gmail.com", label: "Don Lafranchi" },
 ]
-
-const getReceipientsArray = (recepients) => {
-  return recepients.split(",").map((re) => parseInt(re))
-}
 
 const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) => {
   const [selectedFrequency, setFrequency] = useState(frequencyOptions[0].value)
@@ -67,7 +64,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
       body: JSON.stringify({
         ...values,
         analysis_id: analysis.id,
-        recepients: getReceipientsArray(values.recepients),
+        recepients: values.recepients,
         schedule: cron
       }),
     })
@@ -161,7 +158,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
           }}
           initialValues={{
             subject: "",
-            format: "",
+            format: "pdf",
             schedule: "",
             message: "",
             recepients: "",
