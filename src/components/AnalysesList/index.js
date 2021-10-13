@@ -27,7 +27,7 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
 
   const fetchData = () =>
     fetch(
-      `${BASE_PATH}/analyses/?app=${APP_ID}&page=${page}${
+      `${BASE_PATH}/analyses/?app_id=${APP_ID}&page=${page}${
         sort ? `&ordering=${sort}` : ""
       }&page_size=${sizePerPage}`
     )

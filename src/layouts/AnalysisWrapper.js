@@ -8,7 +8,7 @@ import AnalysisSendModal from "components/AnalysisSendModal"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { triggerRunLoading, downloadReport, getBasePath, getBasePath, getAppId, getInStoreId } from "utils"
+import { triggerRunLoading, downloadReport, getBasePath, getAppId, getInStoreId } from "utils"
 import AnalysisContext from '../AnalysisContext'
 import MoreMenu from "./MoreMenu"
 import SaveAnalysisModal from "./SaveAnalysisModal"

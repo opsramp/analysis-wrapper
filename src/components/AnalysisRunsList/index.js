@@ -19,7 +19,7 @@ const AnalysisRunsList = ({ showDialog, closeDialog, analysis, setRunId }) => {
   const BASE_PATH = getBasePath();
 
   const fetchData = () => {
-    let url = `${BASE_PATH}/analysis-runs/?analysis=${analysis.id}&page=${page}&page_size=${sizePerPage}`;
+    let url = `${BASE_PATH}/analysis-runs/?analysis_id=${analysis.id}&page=${page}&page_size=${sizePerPage}`;
     if (sort) {
       url = url + `&ordering=${sort}`
     }
