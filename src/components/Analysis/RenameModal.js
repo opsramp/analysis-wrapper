@@ -12,7 +12,7 @@ const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable })
 
   const onSave = () => {
     fetch(`${BASE_PATH}/analyses/${analysis.id}/`, {
-      method: "PATCH",
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -23,6 +23,7 @@ const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable })
     })
       .then(res => res.json())
       .then(data => {
+        toast.success("Renamed successfully.");
         reloadTable();
         closeDialog();
       })

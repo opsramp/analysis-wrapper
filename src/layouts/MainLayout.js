@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from "react"
 
-import DateRangePicker from "components/DateRangePicker"
-import AnalysesList from "components/AnalysesList"
-import AnalysisRunsList from "components/AnalysisRunsList"
-import LoadingDialog from "components/LoadingDialog"
-import AnalysisSendModal from "components/AnalysisSendModal"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { triggerRunLoading, downloadReport, getBasePath, getAppId, getInStoreId } from "utils"
+import DateRangePicker from "components/DateRangePicker"
+import AnalysesList from "components/Analysis"
+import AnalysisRunsList from "components/AnalysisRun"
+import LoadingDialog from "components/LoadingDialog"
+import AnalysisSendModal from "components/AnalysisSend/CreateModal"
+import ActionMenu from "components/ActionMenu"
+import SaveAnalysisModal from "components/Analysis/SaveModal"
 import AnalysisContext from '../AnalysisContext'
-import MoreMenu from "./MoreMenu"
-import SaveAnalysisModal from "./SaveAnalysisModal"
+import { triggerRunLoading, downloadReport, getBasePath, getAppId, getInStoreId } from "utils"
 
 
-const AnalysisWrapper = () => {
+const MainLayout = () => {
   const [showSavedDialog, openAnalysesListDialog] = useState(false);
   const [showRunsDialog, openRunsListDialog] = useState(false);
   const [isOpenSaveAnalysisModal, setIsOpenSaveAnalysisModal] = useState(false);
@@ -160,7 +160,7 @@ const AnalysisWrapper = () => {
                 <strong>Analysis:</strong>
               </h6>
               <span>
-                <MoreMenu
+                <ActionMenu
                   analysis={analysis}
                   runId={runId}
                   setAnalysis={setAnalysis}
@@ -198,7 +198,6 @@ const AnalysisWrapper = () => {
                       fill="#0077C8"
                     />
                   </svg>
-
                   <span className="ml-2 text-primary">Run</span>
                 </div>
                 <div className="action-divider"></div>
@@ -236,7 +235,6 @@ const AnalysisWrapper = () => {
                       fill="#424242"
                     />
                   </svg>
-
                   <span className="ml-2">Runs</span>
                 </div>
               </div>
@@ -255,4 +253,4 @@ const AnalysisWrapper = () => {
   )
 }
 
-export default AnalysisWrapper
+export default MainLayout

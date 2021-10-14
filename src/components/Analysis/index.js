@@ -2,15 +2,16 @@ import React, { useState, useEffect, useContext } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import { Dialog } from "opsramp-design-system"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import CopyIcon from "assets/icons/icon-copy.svg"
 import EditIcon from "assets/icons/icon-edit.svg"
 import RemoveIcon from "assets/icons/icon-remove.svg"
 import CloseIcon from "assets/icons/close.svg"
-import RenameAnalysisModal from "./RenameAnalysisModal"
-import { dateTimeFormatter, paginationOptions, getBasePath, getAppId } from "utils"
+import RenameAnalysisModal from "./RenameModal"
 import AnalysisContext from '../../AnalysisContext';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { dateTimeFormatter, paginationOptions, getBasePath, getAppId } from "utils"
 
 const AnalysesList = ({ showDialog, closeDialog }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
