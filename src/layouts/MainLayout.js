@@ -15,8 +15,8 @@ import { triggerRunLoading, downloadReport, getBasePath, getAppId, getInStoreId 
 
 
 const MainLayout = () => {
-  const [showSavedDialog, openAnalysesListDialog] = useState(false);
-  const [showRunsDialog, openRunsListDialog] = useState(false);
+  const [isOpenAnalysesList, setIsOpenAnalysesList] = useState(false);
+  const [isOpenRunsList, setIsOpenRunsList] = useState(false);
   const [isOpenSaveAnalysisModal, setIsOpenSaveAnalysisModal] = useState(false);
   const [isOpenSendAnalysisModal, setIsOpenSendAnalysisModal] = useState(false);
   const [isSchedule, setIsSchedule] = useState(false);
@@ -132,12 +132,12 @@ const MainLayout = () => {
 
       <div className="the-panel bg-white h-100" style={{ borderRadius: 5 }}>
         <AnalysesList
-          showDialog={showSavedDialog}
-          closeDialog={() => openAnalysesListDialog(false)}
+          showDialog={isOpenAnalysesList}
+          closeDialog={() => setIsOpenAnalysesList(false)}
         />
         <AnalysisRunsList
-          showDialog={showRunsDialog}
-          closeDialog={() => openRunsListDialog(false)}
+          showDialog={isOpenRunsList}
+          closeDialog={() => setIsOpenRunsList(false)}
           analysis={analysis}
           setRunId={setRunId}
         />
@@ -164,7 +164,7 @@ const MainLayout = () => {
                   analysis={analysis}
                   runId={runId}
                   setAnalysis={setAnalysis}
-                  openAnalysesListDialog={openAnalysesListDialog}
+                  openAnalysesListDialog={setIsOpenAnalysesList}
                   exportReport={exportAnalysis}
                   setIsOpenSendAnalysisModal={setIsOpenSendAnalysisModal}
                   setIsSchedule={setIsSchedule}
@@ -203,7 +203,7 @@ const MainLayout = () => {
                 <div className="action-divider"></div>
                 <div
                   className="d-flex align-items-center ml-5 cursor-pointer"
-                  onClick={() => openRunsListDialog(true)}
+                  onClick={() => setIsOpenRunsList(true)}
                 >
                   <svg
                     width="16"
