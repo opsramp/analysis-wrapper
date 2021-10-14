@@ -1,28 +1,33 @@
 import React, { useState } from "react"
 import { Dialog, Button } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
-import { getBasePath } from "utils"
+import { getBasePath, getAppId } from "utils"
 import { toast } from 'react-toastify';
 
-const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable }) => {
+const RenameCopyAnalysisModal = ({ title, mode, showDialog, closeDialog, analysis, reloadTable }) => {
   const [newName, setNewName] = useState(analysis.name)
 
   const BASE_PATH = getBasePath();
+  const APP_ID = getAppId();
 
   const onSave = () => {
-    fetch(`${BASE_PATH}/analyses/${analysis.id}/`, {
-      method: "PUT",
+    const url = mode == 'copy' ? `${BASE_PATH}/analyses/` : `${BASE_PATH}/analyses/${analysis.id}/`;
+    const method = mode == 'copy' ? 'POST' : 'PUT';
+
+    fetch(url, {
+      method,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: newName
+        name: newName,
+        params: analysis.params,
+        app_id: APP_ID
       }),
     })
       .then(res => res.json())
       .then(data => {
-        toast.success("Renamed successfully.");
         reloadTable();
         closeDialog();
       })
@@ -34,14 +39,14 @@ const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable })
 
   return (
     <Dialog
-      aria-label="Rename Analysis Modal"
+      aria-label="Analysis Modal"
       isOpen={showDialog}
       onDismiss={closeDialog}
       style={{ maxWidth: 500 }}
       className="dialog"
     >
       <div className="dialog-header justify-content-between">
-        <h5 className="font-semibold">Rename Analysis</h5>
+        <h5 className="font-semibold">{title}</h5>
         <img
           src={CloseIcon}
           className="mr-2 cursor-pointer"
@@ -70,4 +75,4 @@ const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable })
   )
 }
 
-export default RenameAnalysisModal
+export default RenameCopyAnalysisModal

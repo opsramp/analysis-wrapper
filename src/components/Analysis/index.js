@@ -10,14 +10,16 @@ import EditIcon from "assets/icons/icon-edit.svg"
 import RemoveIcon from "assets/icons/icon-remove.svg"
 import CloseIcon from "assets/icons/close.svg"
 import ConfirmModal from 'components/ConfirmModal';
-import RenameAnalysisModal from "./RenameModal"
+import RenameCopyAnalysisModal from "./RenameCopyModal"
 import AnalysisContext from '../../AnalysisContext';
 import { dateTimeFormatter, paginationOptions, getBasePath, getAppId } from "utils"
 
 const AnalysesList = ({ showDialog, closeDialog }) => {
-  const [renameModalVisible, setRenameModalVisible] = useState(false)
+  const [isOpenRenameCopyModal, setIsOpenRenameCopyModal] = useState(false)
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [renameCopyMode, setRenameCopyMode] = useState(null);
+  const [modalTitle, setModalTitle] = useState(null);
   const [selectedAnalysis, setSelectedAnalysis] = useState(false)
-  const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const [analysesData, setAnalysesData] = useState([])
   const [page, setPage] = useState(1)
   const [sizePerPage, setSizePerPage] = useState(20)
@@ -74,12 +76,23 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
     })
       .then(() => {
         fetchData();
-        setOpenConfirmModal(false)
+        setIsOpenConfirmModal(false)
       })
       .catch(() => {
-        setOpenConfirmModal(false)
         toast.error("Sorry, something is wrong.");
       })
+  }
+
+  const openRenameModal = () => {
+    setRenameCopyMode('rename');
+    setModalTitle('Rename Analysis');
+    setIsOpenRenameCopyModal(true);
+  }
+
+  const openCopyModal = () => {
+    setRenameCopyMode('copy');
+    setModalTitle('Copy Analysis');
+    setIsOpenRenameCopyModal(true);
   }
 
   const columns = [
@@ -106,22 +119,31 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
       formatter: (cell, row) => {
         return (
           <div className="d-flex">
-            <button className="action-btn">
+            <button
+              className="action-btn"
+              title="Copy"
+              onClick={() => {
+                setSelectedAnalysis(row)
+                openCopyModal()
+              }}
+            >
               <img src={CopyIcon} />
             </button>
             <button
               className="action-btn"
+              title="Rename"
               onClick={() => {
-                setRenameModalVisible(true)
                 setSelectedAnalysis(row)
+                openRenameModal()
               }}
             >
               <img src={EditIcon} />
             </button>
             <button
               className="action-btn"
+              title="Delete"
               onClick={() => {
-                setOpenConfirmModal(true)
+                setIsOpenConfirmModal(true)
                 setSelectedAnalysis(row)
               }}
             >
@@ -142,17 +164,19 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
       className="dialog"
     >
       <div className="h-100">
-        <RenameAnalysisModal
-          showDialog={renameModalVisible}
-          closeDialog={() => setRenameModalVisible(false)}
+        <RenameCopyAnalysisModal
+          showDialog={isOpenRenameCopyModal}
+          closeDialog={() => setIsOpenRenameCopyModal(false)}
           analysis={selectedAnalysis}
           reloadTable={fetchData}
+          title={modalTitle}
+          mode={renameCopyMode}
         />
         <ConfirmModal
           title="Confirm Delete Analysis"
           message="This will delete the existing Analysis."
-          isOpen={openConfirmModal}
-          setIsOpen={setOpenConfirmModal}
+          isOpen={isOpenConfirmModal}
+          setIsOpen={setIsOpenConfirmModal}
           action={deleteAnalysis}
         />
         <div className="dialog-header justify-content-between">
