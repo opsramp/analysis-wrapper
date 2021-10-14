@@ -1,6 +1,6 @@
 import React from "react"
 
-const LoadingDialog = ({title}) => (
+const LoadingModal = ({title}) => (
   <div className="data-loading">
     <div className="data-loading__bar d-flex align-items-center justify-content-center">
       <div className="lds-ring">
@@ -15,4 +15,4 @@ const LoadingDialog = ({title}) => (
   </div>
 )
 
-export default LoadingDialog
+export default LoadingModal

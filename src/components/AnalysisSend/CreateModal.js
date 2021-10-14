@@ -3,11 +3,12 @@ import { Dialog, Button } from "opsramp-design-system"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import CustomSelect from "../CustomSelect"
-import CloseIcon from "assets/icons/close.svg"
 import AnalysisContext from '../../AnalysisContext';
 import { getBasePath } from 'utils'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import ConfirmModal from 'components/ConfirmModal';
 
 const formatOptions = [
   { value: "pdf", label: "PDF" },
@@ -102,49 +103,13 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
 
   return (
     <>
-      <Dialog
-        aria-label="Confirm Delete Modal"
+      <ConfirmModal
+        title="Confirm Delete Scheduled Send"
+        message="This will delete the existing Scheduled Send for this analysis."
         isOpen={openConfirmModal}
-        onDismiss={() => setOpenConfirmModal(false)}
-        style={{
-          maxWidth: 500,
-          margin: "calc(10% + 150px) auto",
-          overflow: "hidden",
-        }}
-        className="dialog"
-      >
-        <div className="dialog-header justify-content-between">
-          <h5 className="font-semibold">Confirm Delete Scheduled Send</h5>
-          <img
-            src={CloseIcon}
-            className="mr-2 cursor-pointer"
-            onClick={() => setOpenConfirmModal(false)}
-          />
-        </div>
-        <div className="dialog-content bg-grey-100">
-          <p className="mb-5">
-            This will delete the existing Scheduled Send for this analysis.
-          </p>
-        </div>
-        <div className="dialog-footer justify-content-between bg-grey-100">
-          <span></span>
-          <div className="d-flex align-items-center">
-            <span>
-              <a
-                onClick={() => setOpenConfirmModal(false)}
-                className="d-flex text-black text-bold cursor-pointer"
-              >
-                CANCEL
-              </a>
-            </span>
-            <span>
-              <Button className="ml-4 px-5" onClick={deleteSchedule}>
-                CONFIRM
-              </Button>
-            </span>
-          </div>
-        </div>
-      </Dialog>
+        setIsOpen={setOpenConfirmModal}
+        action={deleteSchedule}
+      />
       <Dialog
         aria-label="Share Modal"
         isOpen={showDialog}

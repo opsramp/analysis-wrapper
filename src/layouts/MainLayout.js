@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import DateRangePicker from "components/DateRangePicker"
 import AnalysesList from "components/Analysis"
 import AnalysisRunsList from "components/AnalysisRun"
-import LoadingDialog from "components/LoadingDialog"
+import LoadingModal from "components/LoadingModal"
 import AnalysisSendModal from "components/AnalysisSend/CreateModal"
 import ActionMenu from "components/ActionMenu"
 import SaveAnalysisModal from "components/Analysis/SaveModal"
@@ -128,7 +128,7 @@ const MainLayout = () => {
 
   return (
     <>
-      {loading && <LoadingDialog title={loading} />}
+      {loading && <LoadingModal title={loading} />}
 
       <div className="the-panel bg-white h-100" style={{ borderRadius: 5 }}>
         <AnalysesList

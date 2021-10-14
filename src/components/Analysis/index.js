@@ -9,6 +9,7 @@ import CopyIcon from "assets/icons/icon-copy.svg"
 import EditIcon from "assets/icons/icon-edit.svg"
 import RemoveIcon from "assets/icons/icon-remove.svg"
 import CloseIcon from "assets/icons/close.svg"
+import ConfirmModal from 'components/ConfirmModal';
 import RenameAnalysisModal from "./RenameModal"
 import AnalysisContext from '../../AnalysisContext';
 import { dateTimeFormatter, paginationOptions, getBasePath, getAppId } from "utils"
@@ -16,6 +17,7 @@ import { dateTimeFormatter, paginationOptions, getBasePath, getAppId } from "uti
 const AnalysesList = ({ showDialog, closeDialog }) => {
   const [renameModalVisible, setRenameModalVisible] = useState(false)
   const [selectedAnalysis, setSelectedAnalysis] = useState(false)
+  const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const [analysesData, setAnalysesData] = useState([])
   const [page, setPage] = useState(1)
   const [sizePerPage, setSizePerPage] = useState(20)
@@ -65,6 +67,20 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
     setAnalysis(analysis);
     closeDialog();
   }
+  
+  const deleteAnalysis = () => {
+    fetch(`${BASE_PATH}/analyses/${selectedAnalysis.id}/`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        fetchData();
+        setOpenConfirmModal(false)
+      })
+      .catch(() => {
+        setOpenConfirmModal(false)
+        toast.error("Sorry, something is wrong.");
+      })
+  }
 
   const columns = [
     {
@@ -102,7 +118,13 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
             >
               <img src={EditIcon} />
             </button>
-            <button className="action-btn">
+            <button
+              className="action-btn"
+              onClick={() => {
+                setOpenConfirmModal(true)
+                setSelectedAnalysis(row)
+              }}
+            >
               <img src={RemoveIcon} />
             </button>
           </div>
@@ -125,6 +147,13 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
           closeDialog={() => setRenameModalVisible(false)}
           analysis={selectedAnalysis}
           reloadTable={fetchData}
+        />
+        <ConfirmModal
+          title="Confirm Delete Analysis"
+          message="This will delete the existing Analysis."
+          isOpen={openConfirmModal}
+          setIsOpen={setOpenConfirmModal}
+          action={deleteAnalysis}
         />
         <div className="dialog-header justify-content-between">
           <h5 className="font-semibold">Saved Analyses</h5>
