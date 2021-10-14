@@ -90,8 +90,10 @@ const MainLayout = () => {
   }
 
   const saveAnalysis = (name, isSaveAs) => {
-    const url = (!analysis.id || isSaveAs) ? `${BASE_PATH}/analyses/` : `${BASE_PATH}/analyses/${analysis.id}/`;
-    const method = (!analysis.id || isSaveAs) ? 'POST' : 'PUT';
+    const isNew = isSaveAs || !analysis.id;
+    const url = isNew ? `${BASE_PATH}/analyses/` : `${BASE_PATH}/analyses/${analysis.id}/`;
+    const method = isNew ? 'POST' : 'PUT';
+    const params = isSaveAs && analysis.id ? analysis.params : { period: reportPeriod.label };
 
     fetch(url, {
       method,
@@ -100,8 +102,8 @@ const MainLayout = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: name,
-        params: { period: reportPeriod.label },
+        name,
+        params,
         app_id: APP_ID
       }),
     })
@@ -119,8 +121,9 @@ const MainLayout = () => {
   }
 
   const onSaveAnalysis = (isSaveAs) => {
-    if (!analysis.id || isSaveAs) {
-      setIsOpenSaveAnalysisModal();
+    // if a brand new or save as
+    if (isSaveAs || !analysis.id) {
+      setIsOpenSaveAnalysisModal(true);
     } else {
       saveAnalysis(analysis.name);
     }

@@ -2,8 +2,7 @@ import React, { useState } from "react"
 import { Dialog, Button } from "opsramp-design-system"
 import CloseIcon from "assets/icons/close.svg"
 import { getBasePath } from "utils"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable }) => {
   const [newName, setNewName] = useState(analysis.name)
@@ -67,7 +66,6 @@ const RenameAnalysisModal = ({ showDialog, closeDialog, analysis, reloadTable })
           SAVE
         </Button>
       </div>
-      <ToastContainer />
     </Dialog>
   )
 }
