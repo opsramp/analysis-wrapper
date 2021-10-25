@@ -84,11 +84,10 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
   }
 
   const deleteSchedule = () => {
-    fetch(`${BASE_PATH}/analysis-sends/${analysis.id}/`, {
+    fetch(`${BASE_PATH}/analysis-sends/?analysis_id=${analysis.id}`, {
       method: "DELETE",
     })
-      .then(res => res.json())
-      .then(data => {
+      .then(() => {
         setOpenConfirmModal(false)
         closeDialog()
         setLoading(false)
