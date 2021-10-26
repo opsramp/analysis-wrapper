@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Dialog, Button } from "opsramp-design-system"
 import { Formik } from "formik"
 import * as Yup from "yup"
@@ -32,19 +32,27 @@ const weekOptions = [
   { value: "SUN", label: "Sunday" },
 ]
 
-const recipientOptions = [
-  { value: "thirupathaiah.m@opsramp.com", label: "Thirupathi Reddy" },
-  { value: "raju.mummidi@opsramp.com", label: "Raju Mummidi" },
-  { value: "it.corridor051@gmail.com", label: "Don Lafranchi" },
-]
-
 const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) => {
   const [selectedFrequency, setFrequency] = useState(frequencyOptions[0].value)
   const [weekday, setWeekDay] = useState(weekOptions[0].value)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
+  const [recipientOptions, setRecipientOptions] = useState([])
   const { analysis, setAnalysis } = useContext(AnalysisContext);
 
   const BASE_PATH = getBasePath();
+
+  useEffect(() => {
+    const url = `${BASE_PATH}/oap/users`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setRecipientOptions(data.results.map(user => ({value: user.email, label: user.firstName+' '+user.lastName})));
+      })
+      .catch(error => {
+
+      });
+  }, []);
 
   const handleSubmit = (values) => {
     let cron = null;
