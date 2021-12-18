@@ -12,7 +12,7 @@ import CloseIcon from "assets/icons/close.svg"
 import ConfirmModal from 'components/ConfirmModal';
 import RenameCopyAnalysisModal from "./RenameCopyModal"
 import AnalysisContext from '../../AnalysisContext';
-import { dateTimeFormatter, paginationOptions, getBasePath, getAppId } from "utils"
+import { triggerRunLoading, dateTimeFormatter, paginationOptions, getBasePath, getAppId } from "utils"
 
 const AnalysesList = ({ showDialog, closeDialog }) => {
   const [isOpenRenameCopyModal, setIsOpenRenameCopyModal] = useState(false)
@@ -65,8 +65,11 @@ const AnalysesList = ({ showDialog, closeDialog }) => {
     fetchData();
   }
 
-  const loadAnalysis = (analysis) => {
-    setAnalysis(analysis);
+  const loadAnalysis = (new_analysis) => {
+    if (analysis.id !== new_analysis.id) {
+      setAnalysis(new_analysis);
+      triggerRunLoading("");
+    }
     closeDialog();
   }
   

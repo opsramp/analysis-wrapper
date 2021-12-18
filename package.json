@@ -31,6 +31,7 @@
     "source-map-explorer": "^2.5.0",
     "yup": "^0.32.9"
   },
+  "resolutions": { "coa": "2.0.2" },
   "devDependencies": {
     "react-scripts": "^3.4.3"
   },
@@ -50,7 +51,6 @@
     "not ie <= 10",
     "not op_mini all"
   ],
-  "proxy": "http://localhost:8080/",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",

@@ -11,8 +11,8 @@ const RenameCopyAnalysisModal = ({ title, mode, showDialog, closeDialog, analysi
   const APP_ID = getAppId();
 
   const onSave = () => {
-    const url = mode == 'copy' ? `${BASE_PATH}/analyses/` : `${BASE_PATH}/analyses/${analysis.id}/`;
-    const method = mode == 'copy' ? 'POST' : 'PUT';
+    const url = mode === 'copy' ? `${BASE_PATH}/analyses/` : `${BASE_PATH}/analyses/${analysis.id}/`;
+    const method = mode === 'copy' ? 'POST' : 'PUT';
 
     fetch(url, {
       method,

@@ -93,7 +93,7 @@ const MainLayout = () => {
     const isNew = isSaveAs || !analysis.id;
     const url = isNew ? `${BASE_PATH}/analyses/` : `${BASE_PATH}/analyses/${analysis.id}/`;
     const method = isNew ? 'POST' : 'PUT';
-    const params = isSaveAs && analysis.id ? analysis.params : { period: reportPeriod.label };
+    const params = { period: reportPeriod.label };
 
     fetch(url, {
       method,
@@ -127,6 +127,17 @@ const MainLayout = () => {
     } else {
       saveAnalysis(analysis.name);
     }
+  }
+
+  const onNewAnalysis = () => {
+    setAnalysis({
+      name: 'Untitled',
+      is_unsaved: true,
+      params: {
+        period: 'Last 24 Hours'
+      }
+    });
+    triggerRunLoading("");
   }
 
   return (
@@ -166,7 +177,7 @@ const MainLayout = () => {
                 <ActionMenu
                   analysis={analysis}
                   runId={runId}
-                  setAnalysis={setAnalysis}
+                  onNewAnalysis={onNewAnalysis}
                   openAnalysesListDialog={setIsOpenAnalysesList}
                   exportReport={exportAnalysis}
                   setIsOpenSendAnalysisModal={setIsOpenSendAnalysisModal}

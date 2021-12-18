@@ -36,18 +36,22 @@ const AppDateRangePicker = ({ title, setReportPeriod, analysis, setAnalysis }) =
     let startDate;
     let endDate = new Date();
 
-    if (analysis.params.period == 'Last Hour') {
+    if (analysis.params.period === 'Last Hour') {
       startDate = subHours(new Date(), 1);
-    } else if (analysis.params.period == 'Last 4 Hours') {
+    } else if (analysis.params.period === 'Last 4 Hours') {
       startDate = subHours(new Date(), 4);
-    } else if (analysis.params.period == 'Last 8 Hours') {
+    } else if (analysis.params.period === 'Last 8 Hours') {
       startDate = subHours(new Date(), 8);
-    } else if (analysis.params.period == 'Last 24 Hours') {
+    } else if (analysis.params.period === 'Last 24 Hours') {
       startDate = subHours(new Date(), 24);
-    } else if (analysis.params.period == 'Last 7 Days') {
+    } else if (analysis.params.period === 'Last 7 Days') {
       startDate = subDays(new Date(), 7);
-    } else if (analysis.params.period == 'Last 30 Days') {
+    } else if (analysis.params.period === 'Last 30 Days') {
       startDate = subDays(new Date(), 30);
+    } else {
+      let dates = analysis.params.period.split(' - ');
+      startDate = moment(dates[0], "M/DD/YY");
+      endDate = moment(dates[1], "M/DD/YY");
     }
 
     const selection = {
@@ -65,6 +69,9 @@ const AppDateRangePicker = ({ title, setReportPeriod, analysis, setAnalysis }) =
   useOutsideAlerter(wrapperRef, () => setShow(false))
 
   const onChange = (item) => {
+    if (item.selection.label === "") {
+      item.selection.label = `${moment(item.selection.startDate).format("M/DD/YY")} - ${moment(item.selection.endDate).format("M/DD/YY")}`;
+    }
     setState(item.selection);
     setReportPeriod(item.selection);
     const is_unsaved = !analysis.id || analysis.params.period !== item.selection.label;
@@ -76,11 +83,7 @@ const AppDateRangePicker = ({ title, setReportPeriod, analysis, setAnalysis }) =
       <p className="text-grey mb-1">{title}</p>
       <div className="date-range-input" onClick={() => setShow(!show)}>
         <span className="mr-auto">
-          {state.label
-            ? state.label
-            : moment(state.startDate).format("M/DD/YY") +
-              " - " +
-              moment(state.endDate).format("M/DD/YY")}
+          {state.label}
         </span>
         <i className="icon-chevron-down ml-auto" />
       </div>

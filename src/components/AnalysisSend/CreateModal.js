@@ -58,7 +58,7 @@ const AnalysisSendModal = ({ showDialog, closeDialog, isSchedule, setLoading }) 
     let cron = null;
     if (isSchedule) {
       cron = selectedFrequency;
-      if (selectedFrequency == 'weekly') {
+      if (selectedFrequency === 'weekly') {
         cron = "0 0 * * " + weekday;
       };
     }

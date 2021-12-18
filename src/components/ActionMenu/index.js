@@ -13,14 +13,14 @@ const ActionMenu = ({
   setIsOpenSendAnalysisModal,
   setIsSchedule,
   onSaveAnalysis,
-  setAnalysis,
+  onNewAnalysis,
   analysis,
   runId
 }) => {
   return <CDropdown>
     <CDropdownToggle className="action-btn p-0" caret={false}>•••</CDropdownToggle>
     <CDropdownMenu placement="bottom-start">
-      <CDropdownItem onClick={() => {setAnalysis({name: 'Untitled', is_unsaved: true, params: {period: 'Last 24 Hours'}})}}>New</CDropdownItem>
+      <CDropdownItem onClick={() => onNewAnalysis()}>New</CDropdownItem>
       <CDropdownItem onClick={() => openAnalysesListDialog(true)}>Open</CDropdownItem>
       <CDropdownItem><hr /></CDropdownItem>
       <CDropdownItem onClick={() => onSaveAnalysis(false)}>Save</CDropdownItem>

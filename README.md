@@ -14,13 +14,13 @@ This project will be compiled into static files and be embedded into the sdk.
 - Run the Project
 ```
 npm config set registry http://everest-npm-registry.com/
-npm install
-npm run start
+yarn install
+yarn start
 ```
 
 - Build  the project
 ```
-npm run build
+yarn build
 ```
 
 You get compiled js and css file under /build/static/js and /build/static/css, and put them under the SDK's /analysis-wrapper folder.
